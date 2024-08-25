@@ -94,6 +94,10 @@ function PatientPage() {
     navigate("/HealthAssistantPage");
   }
 
+  const bookAppointment = () =>{
+    alert("We will book the appointment tomorrow!");
+  }
+
   return (
     <>
       <div className={Style.mainDivPatient}>
@@ -208,14 +212,13 @@ function PatientPage() {
         <div className={Style.section4MainDiv}>
           <div className={Style.section4MainDivInnerDiv}>
             <p className={Style.section4MainDivInnerDivPara1}>Let's get started</p>
-            <h1 className={Style.section4MainDivInnerDivHeading1}>Take control of your health with Medilink</h1>
-            <p className={Style.section4MainDivInnerDivPara2}>Sign up with Medilink today and get your first consultation free, while taking control of your health with our innovative healthcare management solutions.</p>
-            <button className={Style.freeConsultationBtn}>Free Consultation</button>
+            <h1 className={Style.section4MainDivInnerDivHeading1}>Schedule Your Appointment</h1>
+            <p className={Style.section4MainDivInnerDivPara2}>Booking your appointment with Medilink is simple and hassle-free. Choose your preferred time, and connect with the right healthcare professional in just a few clicks. Your health, your convenience—our priority.</p>
+            <button className={Style.freeConsultationBtn} onClick={bookAppointment}>Book Appointment</button>
           </div>
         </div>
 
         {/* --------------------- section 5 ---------------- */}
-
         <div className={Style.section3MainDiv} id="contactUs">
           <p className={Style.section1Div1Para1}>Contact Us</p>
           <h1 className={Style.section5Div5Heading2}>
