@@ -8,6 +8,7 @@ const cors = require("cors");
 const doctorModel = require("./Database/doctorModel");
 dotenv.config();
 const multer = require("multer");
+const PatientContactUsModel = require("./Database/patientContactUsDetails");
 ConnectMongoose();
 
 app.use(cors());
@@ -267,7 +268,21 @@ app.post("/getDoctorID", async (req, res) => {
 
 // ------------------ patient contactUs Details ---------------------- //
 
-app.post("/patientContactUsDetails", (req, res) => {
+app.post("/patientContactUsDetails", async (req, res) => {
+  try {
+    const { PCName, PCEmail, PCMobileNumber, PCMessage } = req.body;
+    await PatientContactUsModel.create({
+      pcName: PCName,
+      pcEmail: PCEmail,
+      pcMobileNumber: PCMobileNumber,
+      pcMessage: PCMessage,
+    });
+    res.status(200).send({ message: "Message sent Successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "An error occurred, while sending the Message" });
+  }
 });
 
 const PORT = process.env.PORT;

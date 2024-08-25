@@ -18,13 +18,51 @@ function PatientPage() {
       try {
         await axios.post("http://localhost:5000/patientContactUsDetails", {PCName,PCEmail,PCMobileNumber,PCMessage})
         .then((res)=>{
-
+          if(res.status === 200){
+            toast.success("Thank You!, we will contact you shortly", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              transition: Bounce,
+              className: Style.customToast,
+            });
+          }
         }).catch((error)=>{
+          if(error.response && error.response.status === 500){
+            toast.error("Failed to sent message!, Try again later", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              transition: Bounce,
+              className: Style.customToast,
+            });
+          }
 
         });
         
       } catch (error) {
-        
+        toast.error("An Internal error occurred", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+          className: Style.customToast,
+        });
       }
     }else{
       toast.warn("All fields are required", {
