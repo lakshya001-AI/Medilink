@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import Style from "../App.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faHeadset, faEnvelope} from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,7 @@ function PatientPage() {
   const [PCEmail, setPCEmail] = useState("");
   const [PCMobileNumber, setPCMobileNumber] = useState("");
   const [PCMessage, setPCMessage]= useState("");
+  const navigate = useNavigate();
 
   const patientContactUsDetails = async () =>{
     if(PCName && PCEmail && PCMobileNumber && PCMessage){
@@ -79,6 +80,18 @@ function PatientPage() {
       });
 
     }
+  }
+
+  const gotoRecordUpload = () =>{
+    navigate("/PatientRecordPage");
+  }
+
+  const gotoDiseasePrediction = () =>{
+    navigate("/DiesesPredictionPage");
+  }
+
+  const gotoHealthAssistant = () =>{
+    navigate("/HealthAssistantPage");
   }
 
   return (
@@ -166,7 +179,7 @@ function PatientPage() {
                 Centralized patient records that streamline healthcare
                 management.
               </p>
-              <button className={Style.exploreBtnService}>Explore</button>
+              <button className={Style.exploreBtnService} onClick={gotoRecordUpload}>Explore</button>
             </div>
 
 
@@ -176,7 +189,7 @@ function PatientPage() {
                 Improved healthcare outcomes through predictive analytics
                 Technique.
               </p>
-              <button className={Style.exploreBtnService}>Explore</button>
+              <button className={Style.exploreBtnService} onClick={gotoDiseasePrediction}>Explore</button>
             </div>
 
             <div className={Style.serviceType}>
@@ -185,7 +198,7 @@ function PatientPage() {
                 Personalized support and guidance for patients through AI-driven
                 health assistance.
               </p>
-              <button className={Style.exploreBtnService}>Explore</button>
+              <button className={Style.exploreBtnService} onClick={gotoHealthAssistant}>Explore</button>
             </div>
           </div>
         </div>
