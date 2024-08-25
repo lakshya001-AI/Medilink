@@ -5,9 +5,8 @@ const mongoose = require("mongoose");
 
 async function ConnectMongoose(){
     try {
-        // await mongoose.connect("mongodb+srv://makodelakshya101:d2UtQBnMTdzitBpm@medilinkcluter.tjdqngq.mongodb.net/?retryWrites=true&w=majority&appName=MedilinkCluter")
+        
         await mongoose.connect("mongodb+srv://makodelakshya101:d2UtQBnMTdzitBpm@medilinkcluter.tjdqngq.mongodb.net/?retryWrites=true&w=majority&appName=MedilinkCluter")
-        // mongodb+srv://makodelakshya101:d2UtQBnMTdzitBpm@medilinkcluter.tjdqngq.mongodb.net/?retryWrites=true&w=majority&appName=MedilinkCluter
         .then((res)=>{console.log("MongoDB Atlas is Connected")})
         .catch((err)=>{console.log(`Error Connecting to MongoDB Atlas: ${err}`)})
         

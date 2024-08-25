@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Style from "../App.module.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot, faHeadset, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 
 function PatientPage() {
   return (
@@ -15,7 +17,7 @@ function PatientPage() {
           <div className={Style.navBarElements}>
             <Link className={Style.navBarElement1} to="/patientPage">Home</Link>
             <a className={Style.navBarElement1} href="#services">Services</a>
-            <Link className={Style.navBarElement1}>Contact Us</Link>
+            <a className={Style.navBarElement1} href="#contactUs">Contact Us</a>
           </div>
 
           <div className={Style.navBarElements1}>
@@ -125,13 +127,68 @@ function PatientPage() {
 
         {/* --------------------- section 5 ---------------- */}
 
-        <div className={Style.section5MainDiv}>
+        <div className={Style.section3MainDiv} id="contactUs">
+          <p className={Style.section1Div1Para1}>Contact Us</p>
+          <h1 className={Style.section5Div5Heading2}>
+          Get in Touch with Medilink, We're Here to Help You!
+          </h1>
+          <div className={Style.servicesTypesDiv}>
+            <div className={Style.contactUsDiv1}>
+              <p className={Style.contactUsPara}>At Medilink, your health is our priority. Whether you have questions, need help, or want to learn more, we’re here for you. Contact us anytime!</p>
 
-          <h1 className={Style.section5MainDivHeading}>Innovative healthcare solutions for a better tomorrow</h1>
-          <input type="email" className={Style.emailInputSection5MainDiv} placeholder="Email"/>
-          <button className={Style.subscribeBtnSection5}>Subscribe</button>
+              <div className={Style.contactUsDiv11}>
+                <div className={Style.logoContactUsImage}>
+                {/* <FontAwesomeIcon icon={faCoffee} className={Style.fontColorContactUS}/> */}
+                <FontAwesomeIcon icon={faLocationDot} className={Style.fontColorContactUS}/>
+                </div>
+                <div className={Style.contactUsDetails}>
+                  <h1>Address</h1>
+                  <p>123 Maplewood Avenue, Springfield, IL 62704, Pune, Maharashtra , India</p>
 
+                </div>
+              </div>
+
+              <div className={Style.contactUsDiv11}>
+                <div className={Style.logoContactUsImage}>
+                {/* <FontAwesomeIcon icon={faCoffee} className={Style.fontColorContactUS}/> */}
+                <FontAwesomeIcon icon={faHeadset} className={Style.fontColorContactUS}/>
+                </div>
+                <div className={Style.contactUsDetails}>
+                  <h1>Phone Number</h1>
+                  <p>+91 98765 43210</p>
+
+                </div>
+              </div>
+
+              <div className={Style.contactUsDiv11}>
+                <div className={Style.logoContactUsImage}>
+                {/* <FontAwesomeIcon icon={faCoffee} className={Style.fontColorContactUS}/> */}
+                <FontAwesomeIcon icon={faEnvelope} className={Style.fontColorContactUS}/>
+                </div>
+                <div className={Style.contactUsDetails}>
+                  <h1>Email Address</h1>
+                  <p>medilinkhealthcare@gmail.com</p>
+
+                </div>
+              </div>
+              
+            </div>
+
+
+            <div className={Style.contactUsDiv2}>
+              <input type="text" placeholder="Name" className={Style.contactUsNameInput}/>
+              <input type="text" placeholder="Email" className={Style.contactUSemailInput}/>
+              <input type="text" placeholder="Mobile No." className={Style.contactUSemailInput}/>
+              <textarea type="text" placeholder="Message" className={Style.contactUSTextAreaInput}/>
+              <button className={Style.contactUsSubmitBtn}>Submit</button>
+
+              
+            </div>
+
+           
+          </div>
         </div>
+
 
       </div>
     </>
