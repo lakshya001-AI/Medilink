@@ -1,10 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Style from "../App.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faHeadset, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import axios from "axios";
 
 function PatientPage() {
+
+  const [PCName, setPCName] = useState("");
+  const [PCEmail, setPCEmail] = useState("");
+  const [PCMobileNumber, setPCMobileNumber] = useState("");
+  const [PCMessage, setPCMessage]= useState("");
+
+  const patientContactUsDetails = async () =>{
+    if(PCName && PCEmail && PCMobileNumber && PCMessage){
+      try {
+        await axios.post("http://localhost:5000/patientContactUsDetails", {PCName,PCEmail,PCMobileNumber,PCMessage})
+        .then((res)=>{
+
+        }).catch((error)=>{
+
+        });
+        
+      } catch (error) {
+        
+      }
+    }else{
+      toast.warn("All fields are required", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        className: Style.customToast,
+      });
+
+    }
+  }
+
   return (
     <>
       <div className={Style.mainDivPatient}>
@@ -176,11 +214,11 @@ function PatientPage() {
 
 
             <div className={Style.contactUsDiv2}>
-              <input type="text" placeholder="Name" className={Style.contactUsNameInput}/>
-              <input type="text" placeholder="Email" className={Style.contactUSemailInput}/>
-              <input type="text" placeholder="Mobile No." className={Style.contactUSemailInput}/>
-              <textarea type="text" placeholder="Message" className={Style.contactUSTextAreaInput}/>
-              <button className={Style.contactUsSubmitBtn}>Submit</button>
+              <input type="text" placeholder="Name" className={Style.contactUsNameInput} value={PCName} onChange={(e)=>setPCName(e.target.value)}/>
+              <input type="email" placeholder="Email" className={Style.contactUSemailInput} value={PCEmail} onChange={(e)=>setPCEmail(e.target.value)}/>
+              <input type="text" placeholder="Mobile No." className={Style.contactUSemailInput} value={PCMobileNumber} onChange={(e)=>setPCMobileNumber(e.target.value)}/>
+              <textarea type="text" placeholder="Message" className={Style.contactUSTextAreaInput} value={PCMessage} onChange={(e)=>setPCMessage(e.target.value)}/>
+              <button className={Style.contactUsSubmitBtn} onClick={patientContactUsDetails}>Submit</button>
 
               
             </div>
@@ -189,6 +227,7 @@ function PatientPage() {
           </div>
         </div>
 
+        <ToastContainer/>
 
       </div>
     </>

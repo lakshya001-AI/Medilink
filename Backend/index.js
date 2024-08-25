@@ -184,11 +184,11 @@ app.post("/doctorLogin", async (req, res) => {
 app.post("/changePatientPassword", async (req, res) => {
   try {
     const { FPatientID, pNewPassword, pConfirmPassword } = req.body;
-    const patient = await PatientModel.findOne({ PatientID:FPatientID });
+    const patient = await PatientModel.findOne({ PatientID: FPatientID });
     if (patient) {
       const hashChangePassword = await bcrypt.hash(pConfirmPassword, 10);
       await PatientModel.findOneAndUpdate(
-        { PatientID:FPatientID },
+        { PatientID: FPatientID },
         { PPassword: hashChangePassword }
       );
       res.status(200).send({ message: "Password updated successfully!" });
@@ -204,33 +204,33 @@ app.post("/changePatientPassword", async (req, res) => {
 
 // ------------------ get the patient ID ---------------------- //
 
-app.post("/getPatientID", async (req, res)=>{
+app.post("/getPatientID", async (req, res) => {
   try {
-    const {pAadhaarNo} = req.body;
-    const patient = await PatientModel.findOne({PAadhaarNO:pAadhaarNo});
-    if(patient){
+    const { pAadhaarNo } = req.body;
+    const patient = await PatientModel.findOne({ PAadhaarNO: pAadhaarNo });
+    if (patient) {
       const pID = patient.PatientID;
-      res.status(200).send({message:"Patient ID Found",pID});
-    }else{
-      res.status(400).send({message:"Account not found or Aadhaar Number is incorrect"});
+      res.status(200).send({ message: "Patient ID Found", pID });
+    } else {
+      res
+        .status(400)
+        .send({ message: "Account not found or Aadhaar Number is incorrect" });
     }
-    
   } catch (error) {
-    res.status(500).send({message:"External Error!", error});
+    res.status(500).send({ message: "External Error!", error });
   }
 });
-
 
 // ---------------- change doctor password -------------------- //
 
 app.post("/changeDoctorPassword", async (req, res) => {
   try {
     const { FDoctorID, dNewPassword, dConfirmPassword } = req.body;
-    const doctor = await doctorModel.findOne({ doctorID:FDoctorID});
+    const doctor = await doctorModel.findOne({ doctorID: FDoctorID });
     if (doctor) {
       const hashChangePassword = await bcrypt.hash(dConfirmPassword, 10);
       await doctorModel.findOneAndUpdate(
-        { doctorID:FDoctorID },
+        { doctorID: FDoctorID },
         { doctorPassword: hashChangePassword }
       );
       res.status(200).send({ message: "Password updated successfully!" });
@@ -246,20 +246,28 @@ app.post("/changeDoctorPassword", async (req, res) => {
 
 // ------------------ get the Doctor ID ---------------------- //
 
-app.post("/getDoctorID", async (req, res)=>{
+app.post("/getDoctorID", async (req, res) => {
   try {
-    const {dAadhaarNo} = req.body;
-    const doctor = await doctorModel.findOne({doctorAadhaarNumber:dAadhaarNo});
-    if(doctor){
+    const { dAadhaarNo } = req.body;
+    const doctor = await doctorModel.findOne({
+      doctorAadhaarNumber: dAadhaarNo,
+    });
+    if (doctor) {
       const dID = doctor.doctorID;
-      res.status(200).send({message:"Patient ID Found",dID});
-    }else{
-      res.status(400).send({message:"Account not found or Aadhaar Number is incorrect"});
+      res.status(200).send({ message: "Patient ID Found", dID });
+    } else {
+      res
+        .status(400)
+        .send({ message: "Account not found or Aadhaar Number is incorrect" });
     }
-    
   } catch (error) {
-    res.status(500).send({message:"External Error!", error});
+    res.status(500).send({ message: "External Error!", error });
   }
+});
+
+// ------------------ patient contactUs Details ---------------------- //
+
+app.post("/patientContactUsDetails", (req, res) => {
 });
 
 const PORT = process.env.PORT;
