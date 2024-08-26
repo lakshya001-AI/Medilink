@@ -14,10 +14,10 @@ function DiesesPredictionPage() {
             <Link className={Style.navBarElement1} to="/patientPage">
               Home
             </Link>
-            <a className={Style.navBarElement1} href="#services">
+            <Link className={Style.navBarElement1} href="/patientPage">
               Services
-            </a>
-            <a className={Style.navBarElement1} href="#contactUs">
+            </Link>
+            <a className={Style.navBarElement1} href="/patientPage">
               Contact Us
             </a>
           </div>
