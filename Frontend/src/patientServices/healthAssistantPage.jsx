@@ -15,12 +15,12 @@ function HealthAssistantPage() {
             <Link className={Style.navBarElement1} to="/patientPage">
               Home
             </Link>
-            <a className={Style.navBarElement1} href="#services">
+            <Link className={Style.navBarElement1} to="/patientPage">
               Services
-            </a>
-            <a className={Style.navBarElement1} href="#contactUs">
+            </Link>
+            <Link className={Style.navBarElement1} to="/patientPage">
               Contact Us
-            </a>
+            </Link>
           </div>
 
           <div className={Style.navBarElements1}>
