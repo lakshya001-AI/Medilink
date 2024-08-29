@@ -29,7 +29,7 @@ function DiesesPredictionPage() {
           </div>
         </div>
         <h1>Hello, this is Disease Prediction Page</h1>
-      </div>
+  </div>
   </>
 }
 

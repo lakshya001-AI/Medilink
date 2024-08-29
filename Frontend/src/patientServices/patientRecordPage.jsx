@@ -29,7 +29,20 @@ function PatientRecordPage() {
             </Link>
           </div>
         </div>
-        <h1>Hello, this is Patient Record Page</h1>
+
+        {/* ----------- section 1 ---------------- */}
+
+        <div className={Style.section1MedicalRecordPatient}>
+
+          <div className={Style.section1MRP1}>
+
+          </div>
+
+          <div className={Style.section1MRP2}>
+
+          </div>
+
+        </div>
       </div>
     </>
   );
