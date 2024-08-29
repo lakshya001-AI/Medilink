@@ -95,7 +95,7 @@ function PatientPage() {
   }
 
   const bookAppointment = () =>{
-    alert("We will book the appointment tomorrow!");
+    navigate("/BookAppointmentPage");
   }
 
   return (

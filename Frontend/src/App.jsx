@@ -10,6 +10,7 @@ import DoctorAccountPage from './CreateAccountDoctorAndPatient/doctorAccountPage
 import PatientRecordPage from './patientServices/patientRecordPage';
 import DiesesPredictionPage from './patientServices/diseasePredictionPage';
 import HealthAssistantPage from './patientServices/healthAssistantPage';
+import BookAppointmentPage from './patientServices/bookAppointmentPage';
 
 function App() {
   return <>
@@ -24,6 +25,7 @@ function App() {
     <Route path='/PatientRecordPage' element={<PatientRecordPage/>}/>
     <Route path='/DiesesPredictionPage' element={<DiesesPredictionPage/>}/>
     <Route path='/HealthAssistantPage' element={<HealthAssistantPage/>}/>
+    <Route path='/BookAppointmentPage' element={<BookAppointmentPage/>}/>
   </Routes>
   </BrowserRouter>
 
