@@ -16,8 +16,6 @@ function PatientRecordPage() {
   const [prescriptionFile, setPrescriptionFile] = useState(null);
   const [reasonPara, setReasonPara] = useState("");
 
-
-
   // State to manage toggle (Yes/No)
   const [showAdditionalDiv, setShowAdditionalDiv] = useState(true);
 
@@ -27,11 +25,63 @@ function PatientRecordPage() {
     setShowAdditionalDiv(value === "yes");
   };
 
-  const savePatientRecord = () =>{
-    if(hospitalName && doctorName && prescriptionFile && reasonPara){
-      
-      
-    }else{
+  const savePatientRecord = async () => {
+    if (hospitalName && doctorName && prescriptionFile && reasonPara) {
+      const patientId = localStorage.getItem("patientId");
+      const formData = new FormData();
+      formData.append("hospitalName", hospitalName);
+      formData.append("doctorName", doctorName);
+      formData.append("testName",testName);
+      formData.append("testResultFile",testResult);
+      formData.append("prescriptionFile",prescriptionFile);
+      formData.append("reasonPara",reasonPara);
+      formData.append("patientID",patientId);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/savePatientRecord",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200) {
+          toast.success(
+            "Success! Your records have been saved.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              transition: Bounce,
+              className: Style.customToast,
+            }
+          );
+        }
+      } catch (error) {
+        toast.error("An error occurred while saving the record", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+          className: Style.customToast,
+        });
+      }
+
+
+
+    } else {
       toast.warn("Please enter all necessary details to proceed.", {
         position: "top-right",
         autoClose: 5000,
@@ -45,7 +95,7 @@ function PatientRecordPage() {
         className: Style.customToast,
       });
     }
-  }
+  };
 
   return (
     <>
@@ -101,22 +151,31 @@ function PatientRecordPage() {
             <div className={Style.section1MRP2div1}>
               <div className={Style.section1MRP2div11}>
                 <p>Hospital Name*</p>
-                <input type="text" value={hospitalName} onChange={(e)=>setHospitalName(e.target.value)}/>
+                <input
+                  type="text"
+                  value={hospitalName}
+                  onChange={(e) => setHospitalName(e.target.value)}
+                />
               </div>
 
               <div className={Style.section1MRP2div12}>
                 <p>Doctor Name*</p>
-                <input type="text" value={doctorName} onChange={(e)=>setDoctorName(e.target.value)}/>
+                <input
+                  type="text"
+                  value={doctorName}
+                  onChange={(e) => setDoctorName(e.target.value)}
+                />
               </div>
             </div>
 
             <div className={Style.section1MRP2div2}>
               <div className={Style.section1MRP2div11}>
                 <p>Upload Prescription*</p>
-                <input type="file"
-                onChange={(e)=>{
-                  setPrescriptionFile(e.target.files[0]);
-                }}
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setPrescriptionFile(e.target.files[0]);
+                  }}
                 />
               </div>
 
@@ -152,15 +211,20 @@ function PatientRecordPage() {
                 <div className={Style.section1MRP2div3}>
                   <div className={Style.section1MRP2div31}>
                     <p>Test Name</p>
-                    <input type="text" value={testName} onChange={(e)=>setTestName(e.target.value)}/>
+                    <input
+                      type="text"
+                      value={testName}
+                      onChange={(e) => setTestName(e.target.value)}
+                    />
                   </div>
 
                   <div className={Style.section1MRP2div31}>
                     <p>{`Upload Test Result(if Any)`}</p>
-                    <input type="file"
-                    onChange={(e)=>{
-                      setTestResult(e.target.files[0]);
-                    }}
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setTestResult(e.target.files[0]);
+                      }}
                     />
                   </div>
                 </div>
@@ -170,16 +234,24 @@ function PatientRecordPage() {
             <div className={Style.section1MRP2div3}>
               <div className={Style.section1MRP2divReason}>
                 <p>Reason for Consulting the Doctor*</p>
-                <textarea value={reasonPara} onChange={(e)=>setReasonPara(e.target.value)}></textarea>
+                <textarea
+                  value={reasonPara}
+                  onChange={(e) => setReasonPara(e.target.value)}
+                ></textarea>
               </div>
             </div>
 
             <div className={Style.submitRecordDiv}>
-              <button className={Style.submitRecordBtn} onClick={savePatientRecord}>Submit</button>
+              <button
+                className={Style.submitRecordBtn}
+                onClick={savePatientRecord}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );
