@@ -1628,6 +1628,7 @@ cursor: pointer;
     background-color: rgb(241, 241, 241);
     border-radius: 20px;
     margin-top: 40px;
+    overflow-y: scroll;
 }
 
 .noRecords{
@@ -1766,4 +1767,26 @@ cursor: pointer;
     border: 0;
     border-radius: 30px;
     cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.section1MRP2Heading{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0px 30px;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.section1MRP2Heading h1{
+    font-size: 27px;
+    font-weight: 500;
+}
+
+.section1MRP2Heading h3{
+    font-size: 18px;
+    font-weight: 400;
+    color: #987ae3;
 }

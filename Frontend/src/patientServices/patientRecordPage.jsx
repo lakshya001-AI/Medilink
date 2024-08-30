@@ -61,6 +61,10 @@ function PatientRecordPage() {
           </div>
 
           <div className={Style.section1MRP2}>
+            <div className={Style.section1MRP2Heading}>
+              <h1>Patient Medical Records Form</h1>
+              <h3>Securely Store Your Health Information</h3>
+            </div>
             <div className={Style.section1MRP2div1}>
               <div className={Style.section1MRP2div11}>
                 <p>Hospital Name</p>
