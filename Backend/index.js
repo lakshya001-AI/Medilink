@@ -360,6 +360,7 @@ app.post("/savePatientRecord", uploadRecord, async (req, res) => {
 
 // ---------------------- get the patient medical record ---------------- //
 app.use('/patientPrescriptionFile', express.static(path.join(__dirname, 'patientPrescriptionFile')));
+app.use('/patientTestFile', express.static(path.join(__dirname, 'patientTestFile')));
 app.post("/getPatientMedicalRecord", async (req, res) => {
 
   try {

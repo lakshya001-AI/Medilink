@@ -32,11 +32,11 @@ function PatientRecordPage() {
       formData.append("hospitalName", hospitalName);
       formData.append("doctorName", doctorName);
       formData.append("testName", testName);
-      
+
       if (testResult) {
         formData.append("testResultFile", testResult);
       }
-      
+
       formData.append("prescriptionFile", prescriptionFile);
       formData.append("reasonPara", reasonPara);
       formData.append("patientID", patientID);
@@ -52,21 +52,18 @@ function PatientRecordPage() {
           }
         );
         if (response.status === 200) {
-          toast.success(
-            "Success! Your records have been saved.",
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-              transition: Bounce,
-              className: Style.customToast,
-            }
-          );
+          toast.success("Success! Your records have been saved.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+            className: Style.customToast,
+          });
         }
       } catch (error) {
         toast.error("An error occurred while saving the record", {
@@ -82,9 +79,6 @@ function PatientRecordPage() {
           className: Style.customToast,
         });
       }
-
-
-
     } else {
       toast.warn("Please enter all necessary details to proceed.", {
         position: "top-right",
@@ -101,27 +95,24 @@ function PatientRecordPage() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const getPatientMedicalRecord = async () => {
       let patientID = localStorage.getItem("patientID");
-      await axios.post("http://localhost:5000/getPatientMedicalRecord",{patientID})
-      .then((res)=>{
-
-        if(res.status === 200){
-          setRecords(res.data.patientRecords);
-          console.log(res.data.patientRecords);
-          
-        }
-
-      }).catch((error)=>{
-        console.log(error);
-      });
-
-    }
+      await axios
+        .post("http://localhost:5000/getPatientMedicalRecord", { patientID })
+        .then((res) => {
+          if (res.status === 200) {
+            setRecords(res.data.patientRecords);
+            console.log(res.data.patientRecords);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
     getPatientMedicalRecord();
-
-  },[]);
+  }, []);
 
   return (
     <>
@@ -161,33 +152,93 @@ function PatientRecordPage() {
               </div>
             ) : (
               <div className={Style.recordsList}>
-                {/* Render this when records length is not 0 */}
-                <ul>
-                    {records.map((record, index) => (
-                        <li key={index}>
-                            <p>Hospital Name: {record.hospitalName}</p>
-                            <p>Doctor Name: {record.doctorName}</p>
-                            <p>Test Name: {record.testName}</p>
-                            {record.testResultFile && (
-                                <p>
-                                    Test Result File: <a href={record.testResultFile} target="_blank" rel="noopener noreferrer">View File</a>
-                                </p>
-                            )}
-                            {record.prescriptionFile && (
+                <div className={Style.recordsHistoryDiv}>
+                  <p>Records History</p>
+                </div>
 
-                              <div>
-                                 <p>
-                                    Prescription File: <a href={record.prescriptionFile} target="_blank" rel="noopener noreferrer">View File</a>
-                                </p>
-                                {/* <img src={`http://localhost:5000/patientPrescriptionFile/${record.prescriptionFile}`} alt="Prescription" /> */}
+                {records.map((record, index) => (
+                  <div key={index} className={Style.patientRecordDiv}>
+                    {/* this div for the image */}
+                    <div className={Style.recordImageDiv}>
+                      <img
+                        src={`http://localhost:5000/patientPrescriptionFile/${record.prescriptionFile}`}
+                        alt="Prescription"
+                      />
+                      <div
+                        className={Style.viewOverlay}
+                        onClick={() =>
+                          window.open(
+                            `http://localhost:5000/patientPrescriptionFile/${record.prescriptionFile}`,
+                            "_blank"
+                          )
+                        }
+                      >
+                        View
+                      </div>
+                    </div>
 
-                              </div>
-                               
-                            )}
-                            <p>Reason: {record.reasonPara}</p>
-                        </li>
-                    ))}
-                </ul>
+                    {/* this div is for the details */}
+                    <div className={Style.recordDetailsDiv}>
+                      <div className={Style.recordDetailsDiv1}>
+
+                      
+                      <p>
+                        <span className={Style.spanRecordTitle}>
+                          Hospital Name:{" "}
+                        </span>
+                        {`${record.hospitalName.split(" ")
+                          .slice(0, 2)
+                          .join(" ")}...`}
+                      </p>
+                      <p>
+                        <span className={Style.spanRecordTitle}>
+                          Doctor Name:{" "}
+                        </span>
+                        {`${record.mDoctorName.split(" ")
+                          .slice(0, 2)
+                          .join(" ")}`}
+                      </p>
+                      <p>
+                        <span className={Style.spanRecordTitle}>
+                          Test Name:{" "}
+                        </span>
+                        {record.testName.length === 0
+                          ? "No Test Performed"
+                          : `${record.testName.split(" ")
+                            .slice(0, 2)
+                            .join(" ")}`}
+                      </p>
+                      {record.testResultFile && (
+                        <p>
+                          <span className={Style.spanRecordTitle}>
+                            Test Result File: {" "}
+                          </span>
+                          <a href={`http://localhost:5000/patientTestFile/${record.testResultFile}`} target="_blank">
+                            View File
+                          </a>
+                        </p>
+                      )}
+                    
+                      <p>
+                        <span className={Style.spanRecordTitle}>Reason: </span>
+                        {`${record.reasonPara
+                          .split(" ")
+                          .slice(0, 2)
+                          .join(" ")}...`}
+                      </p>
+
+                      </div>
+
+                      <div className={Style.recordDisplayBtnDiv}>
+                        <a href="">show</a>
+                        <a href="">Edit</a>
+                        <a href="">Delete</a>
+
+
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
