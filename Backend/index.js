@@ -9,6 +9,7 @@ const doctorModel = require("./Database/doctorModel");
 dotenv.config();
 const multer = require("multer");
 const PatientContactUsModel = require("./Database/patientContactUsDetails");
+const patientRecordModel = require("./Database/patientRecordModel");
 ConnectMongoose();
 
 app.use(cors());
@@ -284,6 +285,76 @@ app.post("/patientContactUsDetails", async (req, res) => {
       .send({ message: "An error occurred, while sending the Message" });
   }
 });
+
+// --------------------- patient record ---------------------------- //
+
+const storageRecord = multer.diskStorage({
+  destination: (req, file, cb) => {
+      if (file.fieldname === "testResultFile") {
+          cb(null, "patientTestFile/");
+      } else if (file.fieldname === "prescriptionFile") {
+          cb(null, "patientPrescriptionFile/");
+      }
+  },
+  filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now();
+      const data = file.originalname.split(".");
+      const fileExt = data.pop();
+      const fname = data.pop();
+      cb(null, fname + "-" + uniqueSuffix + "." + fileExt);
+  },
+});
+
+// Initialize multer upload middleware for handling multiple files
+const uploadRecord = multer({
+  storage: storageRecord,
+  limits: { fieldSize: 1024 * 1024 * 5 },
+}).fields([
+  { name: "testResultFile", maxCount: 1 },
+  { name: "prescriptionFile", maxCount: 1 }
+]);
+
+app.post(
+  "/savePatientRecord",uploadRecord,
+  async (req, res) => {
+      try {
+          const { patientID, hospitalName, doctorName, testName, reasonPara } = req.body;
+          const mDoctorName = `Dr.${doctorName}`;
+
+
+          // Create a new record
+          const newRecord = {
+              hospitalName,
+              mDoctorName,
+              testName,
+              testResultFile: req.files.testResultFile ? req.files.testResultFile[0].filename : null, // path to the uploaded test result file
+              prescriptionFile: req.files.prescriptionFile[0].filename, // path to the uploaded prescription file
+              reasonPara
+          };
+
+          // Find the patient by ID and update or create if not found
+          let patient = await patientRecordModel.findOne({ patientID });
+
+          if (!patient) {
+              // If patient doesn't exist, create a new one
+              patient = new patientRecordModel({ patientID, patientRecords: [newRecord] });
+          } else {
+              // If patient exists, update the record array
+              patient.patientRecords.push(newRecord);
+          }
+
+          // Save the patient record
+          await patient.save();
+
+          res.status(200).send({message:"Records uploaded successfully"});
+      } catch (error) {
+          console.error(error);
+          res.status(500).send({message:"An error occurred"});
+      }
+  }
+);
+
+// --------------------------- Port is running -------------------------- //
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

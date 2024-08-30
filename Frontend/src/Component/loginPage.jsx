@@ -469,6 +469,7 @@ function LoginPage() {
             setTimeout(() => {
               navigate("/patientPage");
             }, 5000);
+            localStorage.setItem("patientID",patientID);
           })
           .catch((error) => {
             if (error.response && error.response.status === 401) {

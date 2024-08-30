@@ -27,15 +27,19 @@ function PatientRecordPage() {
 
   const savePatientRecord = async () => {
     if (hospitalName && doctorName && prescriptionFile && reasonPara) {
-      const patientId = localStorage.getItem("patientId");
+      let patientID = localStorage.getItem("patientID");
       const formData = new FormData();
       formData.append("hospitalName", hospitalName);
       formData.append("doctorName", doctorName);
-      formData.append("testName",testName);
-      formData.append("testResultFile",testResult);
-      formData.append("prescriptionFile",prescriptionFile);
-      formData.append("reasonPara",reasonPara);
-      formData.append("patientID",patientId);
+      formData.append("testName", testName);
+      
+      if (testResult) {
+        formData.append("testResultFile", testResult);
+      }
+      
+      formData.append("prescriptionFile", prescriptionFile);
+      formData.append("reasonPara", reasonPara);
+      formData.append("patientID", patientID);
 
       try {
         const response = await axios.post(
