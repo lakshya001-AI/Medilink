@@ -1616,7 +1616,7 @@ cursor: pointer;
 .section1MRP1{
     width: 30%;
     height: 100%;
-    background-color: #8b70cd;
+    background-color: #9d81e5;
     border-radius: 20px;
     margin-top: 40px;
     margin-right: 20px;
@@ -1629,6 +1629,10 @@ cursor: pointer;
     border-radius: 20px;
     margin-top: 40px;
     overflow-y: scroll;
+}
+
+.section1MRP2::-webkit-scrollbar {
+    width: 7px; /* Adjust the width of the scrollbar */
 }
 
 .noRecords{
@@ -1787,6 +1791,6 @@ cursor: pointer;
 
 .section1MRP2Heading h3{
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 500;
     color: #987ae3;
 }
