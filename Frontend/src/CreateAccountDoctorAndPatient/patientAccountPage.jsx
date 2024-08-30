@@ -126,6 +126,7 @@ function PatientAccountPage() {
                 }
               );
               setPatientID(pID);
+              localStorage.setItem("patientId",pID);
             })
             .catch((error) => {
               toast.error(

@@ -2,3 +2,5 @@ git status
 git add .
 git commit -m "commit message"
 git push origin main
+
+create a model in the database to store the patient records and should have the patient id for that 

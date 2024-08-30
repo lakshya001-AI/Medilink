@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Style from "../App.module.css";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function PatientRecordPage() {
   const [records, setRecords] = useState([]);
+
+  // patient record data
+  const [hospitalName, setHospitalName] = useState("");
+  const [doctorName, setDoctorName] = useState("");
+  const [testName, setTestName] = useState("");
+  const [testResult, setTestResult] = useState(null);
+  const [prescriptionFile, setPrescriptionFile] = useState(null);
+  const [reasonPara, setReasonPara] = useState("");
+
+
 
   // State to manage toggle (Yes/No)
   const [showAdditionalDiv, setShowAdditionalDiv] = useState(true);
@@ -13,6 +26,26 @@ function PatientRecordPage() {
     const value = event.target.value;
     setShowAdditionalDiv(value === "yes");
   };
+
+  const savePatientRecord = () =>{
+    if(hospitalName && doctorName && prescriptionFile && reasonPara){
+      
+      
+    }else{
+      toast.warn("Please enter all necessary details to proceed.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        className: Style.customToast,
+      });
+    }
+  }
 
   return (
     <>
@@ -67,20 +100,24 @@ function PatientRecordPage() {
             </div>
             <div className={Style.section1MRP2div1}>
               <div className={Style.section1MRP2div11}>
-                <p>Hospital Name</p>
-                <input type="text" name="" id="" />
+                <p>Hospital Name*</p>
+                <input type="text" value={hospitalName} onChange={(e)=>setHospitalName(e.target.value)}/>
               </div>
 
               <div className={Style.section1MRP2div12}>
-                <p>Doctor Name</p>
-                <input type="text" name="" id="" />
+                <p>Doctor Name*</p>
+                <input type="text" value={doctorName} onChange={(e)=>setDoctorName(e.target.value)}/>
               </div>
             </div>
 
             <div className={Style.section1MRP2div2}>
               <div className={Style.section1MRP2div11}>
-                <p>Upload Prescription</p>
-                <input type="file" name="" id="" />
+                <p>Upload Prescription*</p>
+                <input type="file"
+                onChange={(e)=>{
+                  setPrescriptionFile(e.target.files[0]);
+                }}
+                />
               </div>
 
               <div className={Style.section1MRP2div12}>
@@ -115,12 +152,16 @@ function PatientRecordPage() {
                 <div className={Style.section1MRP2div3}>
                   <div className={Style.section1MRP2div31}>
                     <p>Test Name</p>
-                    <input type="text" name="" id="" />
+                    <input type="text" value={testName} onChange={(e)=>setTestName(e.target.value)}/>
                   </div>
 
                   <div className={Style.section1MRP2div31}>
                     <p>{`Upload Test Result(if Any)`}</p>
-                    <input type="file" name="" id="" />
+                    <input type="file"
+                    onChange={(e)=>{
+                      setTestResult(e.target.files[0]);
+                    }}
+                    />
                   </div>
                 </div>
               </div>
@@ -128,16 +169,17 @@ function PatientRecordPage() {
 
             <div className={Style.section1MRP2div3}>
               <div className={Style.section1MRP2divReason}>
-                <p>Reason for Consulting the Doctor</p>
-                <textarea name="" id=""></textarea>
+                <p>Reason for Consulting the Doctor*</p>
+                <textarea value={reasonPara} onChange={(e)=>setReasonPara(e.target.value)}></textarea>
               </div>
             </div>
 
             <div className={Style.submitRecordDiv}>
-              <button className={Style.submitRecordBtn}>Submit</button>
+              <button className={Style.submitRecordBtn} onClick={savePatientRecord}>Submit</button>
             </div>
           </div>
         </div>
+        <ToastContainer/>
       </div>
     </>
   );
