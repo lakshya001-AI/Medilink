@@ -10,12 +10,14 @@ dotenv.config();
 const multer = require("multer");
 const PatientContactUsModel = require("./Database/patientContactUsDetails");
 const patientRecordModel = require("./Database/patientRecordModel");
+const path = require("path");
 ConnectMongoose();
 
 app.use(cors());
 app.use(express.json());
 
-// ----------- Multer Setup for Doctor Proof -------------- //
+
+
 
 // -------------- Patient Data Store -------------- //
 app.post("/PatientCreateAccount", async (req, res) => {
@@ -290,18 +292,18 @@ app.post("/patientContactUsDetails", async (req, res) => {
 
 const storageRecord = multer.diskStorage({
   destination: (req, file, cb) => {
-      if (file.fieldname === "testResultFile") {
-          cb(null, "patientTestFile/");
-      } else if (file.fieldname === "prescriptionFile") {
-          cb(null, "patientPrescriptionFile/");
-      }
+    if (file.fieldname === "testResultFile") {
+      cb(null, "patientTestFile/");
+    } else if (file.fieldname === "prescriptionFile") {
+      cb(null, "patientPrescriptionFile/");
+    }
   },
   filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now();
-      const data = file.originalname.split(".");
-      const fileExt = data.pop();
-      const fname = data.pop();
-      cb(null, fname + "-" + uniqueSuffix + "." + fileExt);
+    const uniqueSuffix = Date.now();
+    const data = file.originalname.split(".");
+    const fileExt = data.pop();
+    const fname = data.pop();
+    cb(null, fname + "-" + uniqueSuffix + "." + fileExt);
   },
 });
 
@@ -311,48 +313,72 @@ const uploadRecord = multer({
   limits: { fieldSize: 1024 * 1024 * 5 },
 }).fields([
   { name: "testResultFile", maxCount: 1 },
-  { name: "prescriptionFile", maxCount: 1 }
+  { name: "prescriptionFile", maxCount: 1 },
 ]);
 
-app.post(
-  "/savePatientRecord",uploadRecord,
-  async (req, res) => {
-      try {
-          const { patientID, hospitalName, doctorName, testName, reasonPara } = req.body;
-          const mDoctorName = `Dr.${doctorName}`;
+app.post("/savePatientRecord", uploadRecord, async (req, res) => {
+  try {
+    const { patientID, hospitalName, doctorName, testName, reasonPara } =
+      req.body;
+    const mDoctorName = `Dr.${doctorName}`;
 
+    // Create a new record
+    const newRecord = {
+      hospitalName,
+      mDoctorName,
+      testName,
+      testResultFile: req.files.testResultFile
+        ? req.files.testResultFile[0].filename
+        : null, // path to the uploaded test result file
+      prescriptionFile: req.files.prescriptionFile[0].filename, // path to the uploaded prescription file
+      reasonPara,
+    };
 
-          // Create a new record
-          const newRecord = {
-              hospitalName,
-              mDoctorName,
-              testName,
-              testResultFile: req.files.testResultFile ? req.files.testResultFile[0].filename : null, // path to the uploaded test result file
-              prescriptionFile: req.files.prescriptionFile[0].filename, // path to the uploaded prescription file
-              reasonPara
-          };
+    // Find the patient by ID and update or create if not found
+    let patient = await patientRecordModel.findOne({ patientID });
 
-          // Find the patient by ID and update or create if not found
-          let patient = await patientRecordModel.findOne({ patientID });
+    if (!patient) {
+      // If patient doesn't exist, create a new one
+      patient = new patientRecordModel({
+        patientID,
+        patientRecords: [newRecord],
+      });
+    } else {
+      // If patient exists, update the record array
+      patient.patientRecords.push(newRecord);
+    }
 
-          if (!patient) {
-              // If patient doesn't exist, create a new one
-              patient = new patientRecordModel({ patientID, patientRecords: [newRecord] });
-          } else {
-              // If patient exists, update the record array
-              patient.patientRecords.push(newRecord);
-          }
+    // Save the patient record
+    await patient.save();
 
-          // Save the patient record
-          await patient.save();
-
-          res.status(200).send({message:"Records uploaded successfully"});
-      } catch (error) {
-          console.error(error);
-          res.status(500).send({message:"An error occurred"});
-      }
+    res.status(200).send({ message: "Records uploaded successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "An error occurred" });
   }
-);
+});
+
+// ---------------------- get the patient medical record ---------------- //
+app.use('/patientPrescriptionFile', express.static(path.join(__dirname, 'patientPrescriptionFile')));
+app.post("/getPatientMedicalRecord", async (req, res) => {
+
+  try {
+    const { patientID } = req.body;
+
+    // first get the patient associated with the patient id
+    const patient = await patientRecordModel.findOne({patientID});
+
+    if(patient){
+      res.status(200).json({patientRecords: patient.patientRecords});
+    }else{
+      res.status(401).send({message:"Error with patient ID, no such patient exits"});
+    }
+  } catch (error) {
+    console.log(`Error: ${error}`);
+    res.status(500).send({message:"An error occurred",error});
+  }
+
+});
 
 // --------------------------- Port is running -------------------------- //
 

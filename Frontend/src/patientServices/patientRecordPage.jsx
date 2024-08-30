@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Style from "../App.module.css";
 import { ToastContainer, toast, Bounce } from "react-toastify";
@@ -101,6 +101,28 @@ function PatientRecordPage() {
     }
   };
 
+  useEffect(()=>{
+    const getPatientMedicalRecord = async () => {
+      let patientID = localStorage.getItem("patientID");
+      await axios.post("http://localhost:5000/getPatientMedicalRecord",{patientID})
+      .then((res)=>{
+
+        if(res.status === 200){
+          setRecords(res.data.patientRecords);
+          console.log(res.data.patientRecords);
+          
+        }
+
+      }).catch((error)=>{
+        console.log(error);
+      });
+
+    }
+
+    getPatientMedicalRecord();
+
+  },[]);
+
   return (
     <>
       <div className={Style.mainDivPatient}>
@@ -140,9 +162,32 @@ function PatientRecordPage() {
             ) : (
               <div className={Style.recordsList}>
                 {/* Render this when records length is not 0 */}
-                {records.map((record, index) => (
-                  <p key={index}>{record.name}</p>
-                ))}
+                <ul>
+                    {records.map((record, index) => (
+                        <li key={index}>
+                            <p>Hospital Name: {record.hospitalName}</p>
+                            <p>Doctor Name: {record.doctorName}</p>
+                            <p>Test Name: {record.testName}</p>
+                            {record.testResultFile && (
+                                <p>
+                                    Test Result File: <a href={record.testResultFile} target="_blank" rel="noopener noreferrer">View File</a>
+                                </p>
+                            )}
+                            {record.prescriptionFile && (
+
+                              <div>
+                                 <p>
+                                    Prescription File: <a href={record.prescriptionFile} target="_blank" rel="noopener noreferrer">View File</a>
+                                </p>
+                                {/* <img src={`http://localhost:5000/patientPrescriptionFile/${record.prescriptionFile}`} alt="Prescription" /> */}
+
+                              </div>
+                               
+                            )}
+                            <p>Reason: {record.reasonPara}</p>
+                        </li>
+                    ))}
+                </ul>
               </div>
             )}
           </div>
