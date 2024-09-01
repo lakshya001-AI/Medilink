@@ -11,13 +11,13 @@ const multer = require("multer");
 const PatientContactUsModel = require("./Database/patientContactUsDetails");
 const patientRecordModel = require("./Database/patientRecordModel");
 const path = require("path");
+const bodyParser = require('body-parser');
+const { exec } = require('child_process');
 ConnectMongoose();
 
 app.use(cors());
 app.use(express.json());
-
-
-
+app.use(bodyParser.json());
 
 // -------------- Patient Data Store -------------- //
 app.post("/PatientCreateAccount", async (req, res) => {
@@ -379,6 +379,31 @@ app.post("/getPatientMedicalRecord", async (req, res) => {
     res.status(500).send({message:"An error occurred",error});
   }
 
+});
+
+// -------------------------- Route to Predict Disease Based on Symptoms ------------------ //
+
+// Route to predict disease based on symptoms
+app.post('/predict', (req, res) => {
+  const { symptoms } = req.body;
+
+  if (!symptoms) {
+      return res.status(400).json({ message: 'No symptoms provided' });
+  }
+
+  // Command to run the Python script with symptoms as argument
+  // const command = `python E:/Medilink_Project/Backend/python/disease_predictor.py "${symptoms}"`;
+  const command1 = `python e:/Medlilink_project/Backend/python/disease_predictor.py "${symptoms}"`;
+
+  exec(command1, (error, stdout, stderr) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Error executing Python script', error: stderr });
+      }
+
+      // Send the prediction back as response
+      res.json({ disease: stdout.trim() });
+  });
 });
 
 // --------------------------- Port is running -------------------------- //
