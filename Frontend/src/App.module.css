@@ -1888,9 +1888,16 @@ cursor: pointer;
     margin-top: 20px;
 }
 
-.predictDisease{
+.predictDiseaseBtn{
+    width: 20vmax;
     margin-top: 30px;
-    padding: 10px 25px;
+    padding: 15px 25px;
+    background-color: #987ae3;
+    color: white;
+    font-size: 18px;
+    border: 0;
+    border-radius: 40px;
+    cursor: pointer;
 }
 
 .predictionPara{
@@ -1925,6 +1932,9 @@ cursor: pointer;
     border-radius: 20px;
     margin-top: 40px;
     overflow-y: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     padding: 20px 30px;
 }
 
@@ -1980,7 +1990,7 @@ cursor: pointer;
 .predictionSteps1Number{
     width: 45px;
     height: 45px;
-    background-color: white;
+    background-color: rgb(57, 57, 57);
     padding: 10px;
     border-radius: 50px;
     display: flex;
@@ -1990,7 +2000,7 @@ cursor: pointer;
 
 .predictionSteps1Number p{
     font-size: 22px;
-    color: #987ae3;
+    color: white;
     font-weight: 700;
 }
 
@@ -2019,7 +2029,7 @@ cursor: pointer;
     align-items: center;
     flex-direction: row;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .selectOptionDivNumDrop{
@@ -2065,3 +2075,47 @@ cursor: pointer;
     color: #987ae3;
 }
 
+.predictDiseaseBtnDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+.predictionResultDiv{
+    width: 83%;
+    padding: 30px 40px;
+    background-color: rgb(57, 57, 57);
+    margin-top: 40px;
+    border-radius: 20px;
+    color: #9d81e5;
+}
+
+.predictedDHeading{
+    font-size: 41px;
+}
+
+.bookAppointmentPara{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.consultDoctorBtnDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.consultDoctorBtn{
+    width: 10vmax;
+    padding: 10px;
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 18px;
+    border: 0;
+    border-radius: 40px;
+    cursor: pointer; 
+}
