@@ -13,7 +13,9 @@ const patientRecordModel = require("./Database/patientRecordModel");
 const path = require("path");
 const bodyParser = require('body-parser');
 const { exec } = require('child_process');
+const {getAIResponse} = require("./openaiService");
 ConnectMongoose();
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());
@@ -405,6 +407,19 @@ app.post('/predict', (req, res) => {
       res.json({ disease: stdout.trim() });
   });
 });
+
+// ---------------------------- Ai Health assistant Route ---------------------------- //
+app.post('/api/health-assistant', async (req, res) => {
+  const { userMessage } = req.body;
+
+  try {
+    const assistantResponse = await getAIResponse(userMessage);
+    res.json({ assistantResponse });
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
 
 // --------------------------- Port is running -------------------------- //
 
