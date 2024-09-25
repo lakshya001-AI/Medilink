@@ -2119,3 +2119,34 @@ cursor: pointer;
     border-radius: 40px;
     cursor: pointer; 
 }
+
+.healthConditionForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.healthConditionTextArea{
+    width: 40vmax;
+    padding: 10px 20px;
+    font-size: 17px;
+    resize: none;
+    border: solid 2px #987ae3;
+}
+
+.getHealthAssistantBtn{
+    width: 15vmax;
+    margin-top: 30px;
+    padding: 15px 25px;
+    background-color: #987ae3;
+    color: white;
+    font-size: 18px;
+    border: 0;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.assistantResultHeading{
+    font-size: 21px;
+}

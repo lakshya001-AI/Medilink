@@ -11,6 +11,8 @@ const cohere = new CohereClient({
 function HealthAssistantPage() {
   const [userMessage, setUserMessage] = useState("");
   const [assistantResponse, setAssistantResponse] = useState("");
+  const [bookAppointmentText, setBookAppointmentText] = useState("");
+  const [consultDoctorText, setConsultDoctorText] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +24,26 @@ function HealthAssistantPage() {
         message: userMessage, // Pass the user's message to the AI model
       });
 
-      // Set the response from the AI into the state
-      setAssistantResponse(response.text);
+      // Simulate typing effect for AI response
+      const responseText = response.text;
+      let index = 0;
+      setAssistantResponse(""); // Clear previous response
+
+      const typingInterval = setInterval(() => {
+        if (index < responseText.length) {
+          setAssistantResponse((prev) => prev + responseText[index]);
+          index++;
+        } else {
+          clearInterval(typingInterval); // Stop the interval when done
+          // Set text for bookAppointmentPara and consultDoctorBtnDiv
+          setTimeout(() => {
+            setBookAppointmentText(
+              "Based on the prediction, we advise you to consult a doctor for a thorough evaluation and proper diagnosis. Early consultation can ensure the best possible care. Please consider booking an appointment with your healthcare provider as soon as possible."
+            );
+            setConsultDoctorText("Consult Doctor");
+          }, 500); // Delay before showing additional text
+        }
+      }, 50); // Adjust the typing speed here (in milliseconds)
     } catch (error) {
       console.error("Error getting AI response:", error);
     }
@@ -58,18 +78,89 @@ function HealthAssistantPage() {
 
         {/* ----------------------- Here we are going to have the AI health assistant feature ------------------------  */}
 
-        <div>
-          <form onSubmit={handleSubmit}>
-            <textarea
-              value={userMessage}
-              onChange={(e) => setUserMessage(e.target.value)}
-              placeholder="Describe your health condition..."
-            />
-            <button type="submit">Send</button>
-          </form>
-          <div>
-            <h3>AI Health Assistant Response:</h3>
-            <p>{assistantResponse}</p>
+        <div className={Style.predictorMainDiv}>
+          <div className={Style.predictorMainDiv1}>
+            <h1 className={Style.predictionHeading}>AI Health Assistant</h1>
+            <p className={Style.medilinkPara}>
+              Explore Medilink's AI Health Assistant, powered by Cohere. Simply
+              describe your health condition and symptoms, and receive tailored advice to help manage
+              your health. Get personalized guidance with our advanced AI
+              today!.
+            </p>
+            <div className={Style.predictionSteps}>
+              <div className={Style.predictionSteps1}>
+                <div className={Style.predictionSteps1Number}>
+                  <p>1</p>
+                </div>
+                <p className={Style.predictionSteps1Para}>
+                  Describe health condition
+                </p>
+              </div>
+
+              <div className={Style.predictionSteps1}>
+                <div className={Style.predictionSteps1Number}>
+                  <p>2</p>
+                </div>
+                <p className={Style.predictionSteps1Para}>
+                 Ask AI Assistant
+                </p>
+              </div>
+
+              <div className={Style.predictionSteps1}>
+                <div className={Style.predictionSteps1Number}>
+                  <p>3</p>
+                </div>
+                <p className={Style.predictionSteps1Para}>
+                  Receive Detailed Results
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className={Style.predictorMainDiv2}>
+
+            <div className={Style.selectSymptomsOptionDiv}>
+              <div className={Style.selectOptionDivNumDrop}>
+                <div className={Style.symptomsParaAndInput}>
+                  <form
+                    onSubmit={handleSubmit}
+                    className={Style.healthConditionForm}
+                  >
+                    <textarea
+                      value={userMessage}
+                      onChange={(e) => setUserMessage(e.target.value)}
+                      placeholder="Describe your health condition..."
+                      className={Style.healthConditionTextArea}
+                    />
+                    <button
+                      type="submit"
+                      className={Style.getHealthAssistantBtn}
+                    >
+                      Ask AI Assistant
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            {assistantResponse && (
+              <div className={Style.predictionResultDiv}>
+                <h1 className={Style.assistantResultHeading}>
+                  {assistantResponse}
+                </h1>
+                {bookAppointmentText && (
+                  <p className={Style.bookAppointmentPara}>
+                    {bookAppointmentText}
+                  </p>
+                )}
+                <div className={Style.consultDoctorBtnDiv}>
+                  {consultDoctorText && (
+                    <button className={Style.consultDoctorBtn}>
+                      {consultDoctorText}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
