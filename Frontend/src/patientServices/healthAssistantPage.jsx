@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Style from "../App.module.css";
-import axios from "axios";
+import { CohereClient } from "cohere-ai"; // Import CohereClient
+
+// Initialize CohereClient with your API key
+const cohere = new CohereClient({
+  token: "BBK74cEhpbUdIj0gyOiSIEeg6F0L9ISHe6Bfo9HF", // Replace with your Cohere API key
+});
 
 function HealthAssistantPage() {
   const [userMessage, setUserMessage] = useState("");
@@ -11,13 +16,16 @@ function HealthAssistantPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/health-assistant",
-        { userMessage }
-      );
-      setAssistantResponse(response.data.assistantResponse);
+      // Make a request to Cohere's chat endpoint with the user's message
+      const response = await cohere.chat({
+        model: "command", // Specify the model to use (e.g., 'command')
+        message: userMessage, // Pass the user's message to the AI model
+      });
+
+      // Set the response from the AI into the state
+      setAssistantResponse(response.text);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error getting AI response:", error);
     }
   };
 
@@ -48,7 +56,7 @@ function HealthAssistantPage() {
           </div>
         </div>
 
-        {/* ----------------------- Here we are going to have the ai health assistant feature ------------------------  */}
+        {/* ----------------------- Here we are going to have the AI health assistant feature ------------------------  */}
 
         <div>
           <form onSubmit={handleSubmit}>
