@@ -286,7 +286,6 @@ function DiesesPredictionPage() {
 
                 <div className={Style.consultDoctorBtnDiv}>
                   <button className={Style.consultDoctorBtn}>Consult Doctor</button>
-
                 </div>
 
               </div>

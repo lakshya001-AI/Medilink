@@ -2150,3 +2150,125 @@ cursor: pointer;
 .assistantResultHeading{
     font-size: 21px;
 }
+
+.bookAppointmentMainDiv{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 20px 30px;
+}
+
+.bookAppointmentOptionDiv{
+    width: 20%;
+    height: 36vmax;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    background-color: #ab94e6;
+    padding: 30px 30px;
+    border-radius: 30px;
+}
+
+/* For WebKit Browsers (Chrome, Safari, etc.) */
+.bookAppointmentOptionDiv::-webkit-scrollbar {
+    width: 2px; /* Scrollbar width */
+}
+
+.bookAppointmentOptionDiv::-webkit-scrollbar-track {
+    background: #e0e0e0;  /* Background color of the scroll track */
+    border-radius: 10px;
+}
+
+.bookAppointmentOptionDiv::-webkit-scrollbar-thumb {
+    background-color: #555; /* Color of the scrollbar thumb */
+    border-radius: 10px;  /* Rounded edges for the thumb */
+    border: 2px solid #e0e0e0; /* Adds padding around the thumb */
+}
+
+/* Optional hover effect on the scrollbar thumb */
+.bookAppointmentOptionDiv::-webkit-scrollbar-thumb:hover {
+    background-color: #4c42d1;
+}
+
+.bookAppointmentOptionDiv button {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 30px;
+    border: 0;
+    font-size: 15px;
+    background-color: #ffffff;
+    transition: all 0.3s ease; /* Transition effect for hover */
+    transform: scale(1); /* Default scale */
+}
+
+.bookAppointmentOptionDiv button:hover {
+    color: #ffffff;
+    background-color: #555;
+    transform: scale(1.05); /* Slightly scale up the button */
+    /* Other properties like width, padding, etc. will smoothly transition */
+}
+
+.bookAppointmentDoctorOptionsDiv{
+    width: 80%;
+    margin-left: 10px;
+    height: 36vmax;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: row;
+    border-radius: 30px;
+    padding: 30px 20px;
+}
+
+.doctorOppintnmentDiv{
+    padding: 20px;
+    width: 22vmax;
+    height: 13vmax;
+    margin: 0px 10px;
+    background-color: white;
+    border-radius: 20px;
+    border: solid 1px #987ae3;
+}
+
+.doctorNamePara{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.specializationPara{
+    color: #3d3d3d;
+}
+
+
+.yearsOfExperiencePara{
+    color: #3d3d3d;
+    margin-top: 5px;
+}
+
+.doctorClinicAddressPara{
+    color: #3d3d3d;
+}
+
+.consultationFessPara{
+    color: #3d3d3d;
+    margin-bottom: 10px;
+}
+
+.bookClinicVisitBtn{
+    padding: 5px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 0;
+    background-color: #9d81e5;
+    color: white;
+    margin-top: 5px;
+}
+
+.bookClinicVisitDiv{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
