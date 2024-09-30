@@ -2272,3 +2272,124 @@ cursor: pointer;
     display: flex;
     justify-content: end;
 }
+
+.accessPatientRecordMainDiv {
+    width: 100vw;
+    padding: 30px 40px;
+  }
+  
+  .accessPatientRecordDiv1 {
+    width: 100%;
+    height: auto;
+    background-color: #f1f1f1;
+    border-radius: 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .accessRecordHeading h1 {
+    color: #9d81e5;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .accessRecordForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .inputField {
+    width: 50vmax;
+    padding: 15px;
+    border: 2px solid #9d81e5;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    font-size: 20px;
+  }
+  
+  .inputField::placeholder {
+    color: #ccc;
+  }
+  
+  .accessButton {
+    padding: 10px 20px;
+    background-color: #9d81e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .accessButton:hover {
+    background-color: #7b64cc;
+  }
+
+  .PatientRecordsDiv{
+    width: 100vw;
+    height: 19vmax;
+    padding: 30px 40px;
+  }
+
+.PatientRecordsDivInnerDiv{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.patientRecordDivDoctorSide{
+    width: 30vmax;
+    height: 13vmax;
+    background-color: #a992e5;
+    margin-right: 20px;
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.patientRecordImageDIvDS{
+    width: 40%;
+    height: 100%;
+}
+
+.patientRecordImageDIvDS img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.patientRecordInfoDivDS{
+    width: 60%;
+    height: 100%;
+    padding: 5px;
+    color: white;
+}
+
+.patientRecordInfoDivDS p{
+    font-size: 16px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.accessDetailsDivBtnDS{
+    width: 100%;
+}
+
+.viewRecordsBtnDS{
+    padding: 7px 30px;
+    margin-top: 10px;
+    background-color: white;
+    margin-left: 5px;
+    border: 0;
+    border-radius: 30px;
+    cursor: pointer;
+}
+  
