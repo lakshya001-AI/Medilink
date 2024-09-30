@@ -469,6 +469,39 @@ app.put("/updateDoctorDetail", async (req, res) => {
 });
 
 
+app.post("/saveAppointmentDetails", async (req, res) => {
+  const { patientName, patientProblem, appointmentDate, doctorID } = req.body;
+
+  try {
+    // Find the doctor by ID
+    const doctor = await doctorModel.findOne({ doctorID });
+
+    if (!doctor) {
+      return res.status(404).send({ message: "Doctor not found" });
+    }
+
+    // Create an appointment object
+    const appointmentData = {
+      patientName,
+      patientProblem,
+      appointmentDate,
+    };
+
+    // Push the new appointment into the doctor's appointments array
+    doctor.appointments.push(appointmentData);
+
+    // Save the updated doctor document
+    await doctor.save();
+
+    res.status(200).json({ message: "Appointment booked successfully!" });
+  } catch (error) {
+    console.error(`Error saving appointment: ${error}`);
+    res.status(500).send({ message: "Failed to book appointment.", error });
+  }
+});
+
+
+
 // --------------------------- Port is running -------------------------- //
 
 const PORT = process.env.PORT;

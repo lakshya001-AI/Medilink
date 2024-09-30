@@ -1,29 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Style from "../App.module.css";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 function BookAppointmentPage() {
   // State to store selected doctor category
   const [selectedCategory, setSelectedCategory] = useState("Surgeons");
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State for popup visibility
+  const [patientName, setPatientName] = useState("");
+  const [patientProblem, setPatientProblem] = useState("");
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [doctorID, setDoctorID] = useState(""); // Store the selected doctor ID
 
   // Sample data for doctors based on categories
   const doctorsData = {
-    Gynecologist: [
-      // {
-      //   name: "Dr. Priya Sharma",
-      //   specialization: "Gynecologist/Obstetrician",
-      //   experience: "24 years",
-      //   clinicAddress: "Unity Hospital, Aundh, Pune",
-      //   consultationFee: "₹700",
-      // },
-      // {
-      //   name: "Dr. Neha Desai",
-      //   specialization: "Gynecologist/Obstetrician",
-      //   experience: "18 years",
-      //   clinicAddress: "Wellness Clinic, Kothrud, Pune",
-      //   consultationFee: "₹650",
-      // },
-    ],
+    Gynecologist: [],
     Surgeons: [
       {
         name: "Dr. Kunal Malviya",
@@ -31,61 +23,55 @@ function BookAppointmentPage() {
         experience: "12 years",
         clinicAddress: "Care Hospital, Shivajinagar, Pune",
         consultationFee: "₹900",
+        doctorID: "1234" // Add a doctorID for the appointment
       },
     ],
-    GeneralMD: [
-      // {
-      //   name: "Dr. Sanjay Gupta",
-      //   specialization: "General Physician",
-      //   experience: "9 years",
-      //   clinicAddress: "City Clinic, Deccan, Pune",
-      //   consultationFee: "₹500",
-      // },
-      // {
-      //   name: "Dr. Anjali Patil",
-      //   specialization: "General Physician",
-      //   experience: "6 years",
-      //   clinicAddress: "Health Plus, Wakad, Pune",
-      //   consultationFee: "₹550",
-      // },
-    ],
-    Orthopedic: [
-      // {
-      //   name: "Dr. Vijay Kumar",
-      //   specialization: "Orthopedic Surgeon",
-      //   experience: "11 years",
-      //   clinicAddress: "Bone Care Hospital, Hadapsar, Pune",
-      //   consultationFee: "₹1000",
-      // },
-      // {
-      //   name: "Dr. Rakesh Mehta",
-      //   specialization: "Orthopedic Surgeon",
-      //   experience: "8 years",
-      //   clinicAddress: "Orthocare Clinic, Kalyani Nagar, Pune",
-      //   consultationFee: "₹950",
-      // },
-    ],
-    Neurologist: [
-      // {
-      //   name: "Dr. Arjun Sinha",
-      //   specialization: "Neurologist",
-      //   experience: "15 years",
-      //   clinicAddress: "Neuro Wellness, Viman Nagar, Pune",
-      //   consultationFee: "₹1200",
-      // },
-      // {
-      //   name: "Dr. Pooja Bhatt",
-      //   specialization: "Neurologist",
-      //   experience: "10 years",
-      //   clinicAddress: "Brain Care Hospital, Hinjewadi, Pune",
-      //   consultationFee: "₹1100",
-      // },
-    ],
+    GeneralMD: [],
+    Orthopedic: [],
+    Neurologist: [],
   };
 
   // Function to handle button clicks
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+  };
+
+  // Function to open the booking popup
+  const handleBookClinicVisit = (doctorID) => {
+    setDoctorID(doctorID); // Set the doctor ID for the appointment
+    setIsPopupOpen(true);
+  };
+
+  // Function to save the appointment details
+  const saveAppointment = async () => {
+    try {
+      await axios.post("http://localhost:5000/saveAppointmentDetails", {
+        patientName,
+        patientProblem,
+        appointmentDate,
+        doctorID,
+      });
+      // Close the popup and reset the fields
+      setIsPopupOpen(false);
+      setPatientName("");
+      setPatientProblem("");
+      setAppointmentDate("");
+      toast.success("Appointment booked successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        className: Style.customToast,
+      });
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+      alert("Failed to book appointment. Please try again.");
+    }
   };
 
   return (
@@ -110,7 +96,7 @@ function BookAppointmentPage() {
 
           <div className={Style.navBarElements1}>
             <Link className={Style.navBarElementAIHelp} to="/">
-              logout
+              Logout
             </Link>
           </div>
         </div>
@@ -155,7 +141,10 @@ function BookAppointmentPage() {
                       className={Style.consultationFessPara}
                     >{`💷 ${doctor.consultationFee} Consultation fee at clinic`}</p>
 
-                    <button className={Style.bookClinicVisitBtn}>
+                    <button 
+                      className={Style.bookClinicVisitBtn} 
+                      onClick={() => handleBookClinicVisit("DKU234523452345")} // Pass the doctor ID
+                    >
                       Book Clinic Visit
                     </button>
                   </div>
@@ -163,10 +152,41 @@ function BookAppointmentPage() {
               </>
             )}
           </div>
+
+          {/* Popup for booking appointment */}
+          {isPopupOpen && (
+            <div className={Style.popup}>
+              <div className={Style.popupContent}>
+                <h2>Book Appointment</h2>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Your Problem"
+                  value={patientProblem}
+                  onChange={(e) => setPatientProblem(e.target.value)}
+                />
+                <input
+                  type="date"
+                  placeholder="Date of Appointment"
+                  value={appointmentDate}
+                  onChange={(e) => setAppointmentDate(e.target.value)}
+                />
+                <button onClick={saveAppointment}>Book Appointment</button>
+                <button onClick={() => setIsPopupOpen(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
         </div>
+        <ToastContainer/>
       </div>
     </>
   );
 }
 
 export default BookAppointmentPage;
+
