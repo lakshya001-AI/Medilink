@@ -342,14 +342,13 @@ function DoctorPage() {
         {showModal && selectedRecord && (
           <div className={Style.modal}>
             <div className={Style.modalContent}>
-              <h2>Patient Medical Record</h2>
-              <p><strong>Hospital Name:</strong> {selectedRecord.hospitalName}</p>
-              <p><strong>Doctor Name:</strong> {selectedRecord.mDoctorName}</p>
-              <p><strong>Test Name:</strong> {selectedRecord.testName || "No Test Performed"}</p>
-              <p><strong>Test Result:</strong> {selectedRecord.testResultFile || "No Test Results"}</p>
-              <p><strong>Prescription:</strong> {selectedRecord.prescriptionFile || "No Prescription Provided"}</p>
-              <p><strong>Reason:</strong> {selectedRecord.reasonPara}</p>
-              <p><strong>Date:</strong> {new Date(selectedRecord.createdAt).toLocaleDateString()}</p>
+              {/* <h2 className={Style.modalContentPara1}>Patient Medical Record Details</h2> */}
+              <p ><strong className={Style.modalContentPara1}>Hospital Name:</strong> {selectedRecord.hospitalName}</p>
+              <p><strong className={Style.modalContentPara1}>Doctor Name:</strong> {selectedRecord.mDoctorName}</p>
+              <p><strong className={Style.modalContentPara1}>Test Name:</strong> {selectedRecord.testName || "No Test Performed"}</p>
+              <p><strong className={Style.modalContentPara1}>Test Result:</strong> {selectedRecord.testResultFile || "No Test Results"}</p>
+              <p><strong className={Style.modalContentPara1}>Reason:</strong> {selectedRecord.reasonPara}</p>
+              <p><strong className={Style.modalContentPara1}>Date:</strong> {new Date(selectedRecord.createdAt).toLocaleDateString()}</p>
               <button onClick={closeModal}>Close</button>
             </div>
           </div>
@@ -358,7 +357,7 @@ function DoctorPage() {
         {/* Image Modal for viewing the test result image */}
         {showImageModal && selectedImage && (
           <div className={Style.modal}>
-            <div className={Style.modalContent}>
+            <div className={Style.modalContent1}>
               <img
                 src={selectedImage}
                 alt="Test Result"
