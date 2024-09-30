@@ -285,7 +285,7 @@ function DiesesPredictionPage() {
                 <p className={Style.bookAppointmentPara}>Based on the prediction, we advise you to consult a doctor for a thorough evaluation and proper diagnosis. Early consultation can ensure the best possible care. Please consider booking an appointment with your healthcare provider as soon as possible.</p>
 
                 <div className={Style.consultDoctorBtnDiv}>
-                  <button className={Style.consultDoctorBtn}>Consult Doctor</button>
+                  <Link className={Style.consultDoctorBtn} to="/BookAppointmentPage">Consult Doctor</Link>
                 </div>
 
               </div>

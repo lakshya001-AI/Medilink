@@ -154,9 +154,9 @@ function HealthAssistantPage() {
                 )}
                 <div className={Style.consultDoctorBtnDiv}>
                   {consultDoctorText && (
-                    <button className={Style.consultDoctorBtn}>
+                    <Link className={Style.consultDoctorBtn} to="/BookAppointmentPage">
                       {consultDoctorText}
-                    </button>
+                    </Link>
                   )}
                 </div>
               </div>
