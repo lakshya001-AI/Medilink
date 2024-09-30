@@ -11,9 +11,9 @@ const multer = require("multer");
 const PatientContactUsModel = require("./Database/patientContactUsDetails");
 const patientRecordModel = require("./Database/patientRecordModel");
 const path = require("path");
-const bodyParser = require('body-parser');
-const { exec } = require('child_process');
-const {getAIResponse} = require("./openaiService");
+const bodyParser = require("body-parser");
+const { exec } = require("child_process");
+const { getAIResponse } = require("./openaiService");
 ConnectMongoose();
 dotenv.config();
 
@@ -361,36 +361,43 @@ app.post("/savePatientRecord", uploadRecord, async (req, res) => {
 });
 
 // ---------------------- get the patient medical record ---------------- //
-app.use('/patientPrescriptionFile', express.static(path.join(__dirname, 'patientPrescriptionFile')));
-app.use('/patientTestFile', express.static(path.join(__dirname, 'patientTestFile')));
-app.post("/getPatientMedicalRecord", async (req, res) => {
+app.use(
+  "/patientPrescriptionFile",
+  express.static(path.join(__dirname, "patientPrescriptionFile"))
+);
+app.use(
+  "/patientTestFile",
+  express.static(path.join(__dirname, "patientTestFile"))
+);
 
+app.post("/getPatientMedicalRecord", async (req, res) => {
   try {
     const { patientID } = req.body;
 
     // first get the patient associated with the patient id
-    const patient = await patientRecordModel.findOne({patientID});
+    const patient = await patientRecordModel.findOne({ patientID });
 
-    if(patient){
-      res.status(200).json({patientRecords: patient.patientRecords});
-    }else{
-      res.status(401).send({message:"Error with patient ID, no such patient exits"});
+    if (patient) {
+      res.status(200).json({ patientRecords: patient.patientRecords });
+    } else {
+      res
+        .status(401)
+        .send({ message: "Error with patient ID, no such patient exits" });
     }
   } catch (error) {
     console.log(`Error: ${error}`);
-    res.status(500).send({message:"An error occurred",error});
+    res.status(500).send({ message: "An error occurred", error });
   }
-
 });
 
 // -------------------------- Route to Predict Disease Based on Symptoms ------------------ //
 
 // Route to predict disease based on symptoms
-app.post('/predict', (req, res) => {
+app.post("/predict", (req, res) => {
   const { symptoms } = req.body;
 
   if (!symptoms) {
-      return res.status(400).json({ message: 'No symptoms provided' });
+    return res.status(400).json({ message: "No symptoms provided" });
   }
 
   // Command to run the Python script with symptoms as argument
@@ -398,28 +405,29 @@ app.post('/predict', (req, res) => {
   const command1 = `python e:/Medlilink_project/Backend/python/disease_predictor.py "${symptoms}"`;
 
   exec(command1, (error, stdout, stderr) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Error executing Python script', error: stderr });
-      }
+    if (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: "Error executing Python script", error: stderr });
+    }
 
-      // Send the prediction back as response
-      res.json({ disease: stdout.trim() });
+    // Send the prediction back as response
+    res.json({ disease: stdout.trim() });
   });
 });
 
 // ---------------------------- Ai Health assistant Route ---------------------------- //
-app.post('/api/health-assistant', async (req, res) => {
+app.post("/api/health-assistant", async (req, res) => {
   const { userMessage } = req.body;
 
   try {
     const assistantResponse = await getAIResponse(userMessage);
     res.json({ assistantResponse });
   } catch (error) {
-    res.status(500).json({ message: 'Error processing request' });
+    res.status(500).json({ message: "Error processing request" });
   }
 });
-
 
 // --------------------------- Port is running -------------------------- //
 
