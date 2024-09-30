@@ -9,84 +9,77 @@ function BookAppointmentPage() {
   // Sample data for doctors based on categories
   const doctorsData = {
     Gynecologist: [
-      {
-        name: "Dr. Priya Sharma",
-        specialization: "Gynecologist/Obstetrician",
-        experience: "24 years",
-        clinicAddress: "Unity Hospital, Aundh, Pune",
-        consultationFee: "₹700",
-      },
-      {
-        name: "Dr. Neha Desai",
-        specialization: "Gynecologist/Obstetrician",
-        experience: "18 years",
-        clinicAddress: "Wellness Clinic, Kothrud, Pune",
-        consultationFee: "₹650",
-      },
+      // {
+      //   name: "Dr. Priya Sharma",
+      //   specialization: "Gynecologist/Obstetrician",
+      //   experience: "24 years",
+      //   clinicAddress: "Unity Hospital, Aundh, Pune",
+      //   consultationFee: "₹700",
+      // },
+      // {
+      //   name: "Dr. Neha Desai",
+      //   specialization: "Gynecologist/Obstetrician",
+      //   experience: "18 years",
+      //   clinicAddress: "Wellness Clinic, Kothrud, Pune",
+      //   consultationFee: "₹650",
+      // },
     ],
     Surgeons: [
       {
-        name: "Dr. Rajesh Iyer",
+        name: "Dr. Kunal Malviya",
         specialization: "General Surgeon",
         experience: "12 years",
         clinicAddress: "Care Hospital, Shivajinagar, Pune",
         consultationFee: "₹900",
       },
-      {
-        name: "Dr. Kavita Menon",
-        specialization: "General Surgeon",
-        experience: "7 years",
-        clinicAddress: "Global Hospital, Baner, Pune",
-        consultationFee: "₹800",
-      },
     ],
     GeneralMD: [
-      {
-        name: "Dr. Sanjay Gupta",
-        specialization: "General Physician",
-        experience: "9 years",
-        clinicAddress: "City Clinic, Deccan, Pune",
-        consultationFee: "₹500",
-      },
-      {
-        name: "Dr. Anjali Patil",
-        specialization: "General Physician",
-        experience: "6 years",
-        clinicAddress: "Health Plus, Wakad, Pune",
-        consultationFee: "₹550",
-      },
+      // {
+      //   name: "Dr. Sanjay Gupta",
+      //   specialization: "General Physician",
+      //   experience: "9 years",
+      //   clinicAddress: "City Clinic, Deccan, Pune",
+      //   consultationFee: "₹500",
+      // },
+      // {
+      //   name: "Dr. Anjali Patil",
+      //   specialization: "General Physician",
+      //   experience: "6 years",
+      //   clinicAddress: "Health Plus, Wakad, Pune",
+      //   consultationFee: "₹550",
+      // },
     ],
     Orthopedic: [
-      {
-        name: "Dr. Vijay Kumar",
-        specialization: "Orthopedic Surgeon",
-        experience: "11 years",
-        clinicAddress: "Bone Care Hospital, Hadapsar, Pune",
-        consultationFee: "₹1000",
-      },
-      {
-        name: "Dr. Rakesh Mehta",
-        specialization: "Orthopedic Surgeon",
-        experience: "8 years",
-        clinicAddress: "Orthocare Clinic, Kalyani Nagar, Pune",
-        consultationFee: "₹950",
-      },
+      // {
+      //   name: "Dr. Vijay Kumar",
+      //   specialization: "Orthopedic Surgeon",
+      //   experience: "11 years",
+      //   clinicAddress: "Bone Care Hospital, Hadapsar, Pune",
+      //   consultationFee: "₹1000",
+      // },
+      // {
+      //   name: "Dr. Rakesh Mehta",
+      //   specialization: "Orthopedic Surgeon",
+      //   experience: "8 years",
+      //   clinicAddress: "Orthocare Clinic, Kalyani Nagar, Pune",
+      //   consultationFee: "₹950",
+      // },
     ],
     Neurologist: [
-      {
-        name: "Dr. Arjun Sinha",
-        specialization: "Neurologist",
-        experience: "15 years",
-        clinicAddress: "Neuro Wellness, Viman Nagar, Pune",
-        consultationFee: "₹1200",
-      },
-      {
-        name: "Dr. Pooja Bhatt",
-        specialization: "Neurologist",
-        experience: "10 years",
-        clinicAddress: "Brain Care Hospital, Hinjewadi, Pune",
-        consultationFee: "₹1100",
-      },
+      // {
+      //   name: "Dr. Arjun Sinha",
+      //   specialization: "Neurologist",
+      //   experience: "15 years",
+      //   clinicAddress: "Neuro Wellness, Viman Nagar, Pune",
+      //   consultationFee: "₹1200",
+      // },
+      // {
+      //   name: "Dr. Pooja Bhatt",
+      //   specialization: "Neurologist",
+      //   experience: "10 years",
+      //   clinicAddress: "Brain Care Hospital, Hinjewadi, Pune",
+      //   consultationFee: "₹1100",
+      // },
     ],
   };
 

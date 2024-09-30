@@ -565,6 +565,8 @@ function LoginPage() {
               className: Style.customToast,
             });
 
+            localStorage.setItem("doctorID",doctorID);
+
             setTimeout(() => {
               navigate("/doctorPage");
             }, 5000);

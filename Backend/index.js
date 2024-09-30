@@ -429,6 +429,46 @@ app.post("/api/health-assistant", async (req, res) => {
   }
 });
 
+app.post("/getDoctorDetail", async (req, res) => {
+  const { doctorId } = req.body;
+
+  try {
+    // Assuming there's a Doctor model
+    const doctor = await doctorModel.findOne({ doctorID: doctorId });
+    if (doctor) {
+      res.status(200).json(doctor);
+    } else {
+      res.status(404).send({ message: "Doctor not found" });
+    }
+  } catch (error) {
+    console.error(`Error: ${error}`);
+    res.status(500).send({ message: "An error occurred", error });
+  }
+});
+
+// Backend route to update doctor details
+app.put("/updateDoctorDetail", async (req, res) => {
+  const { doctorId, name, specialization, experience } = req.body;
+
+  try {
+    const updatedDoctor = await DoctorModel.findOneAndUpdate(
+      { doctorId },
+      { name, specialization, experience },
+      { new: true } // Return the updated document
+    );
+
+    if (updatedDoctor) {
+      res.status(200).json(updatedDoctor);
+    } else {
+      res.status(404).send({ message: "Doctor not found" });
+    }
+  } catch (error) {
+    console.error(`Error: ${error}`);
+    res.status(500).send({ message: "An error occurred", error });
+  }
+});
+
+
 // --------------------------- Port is running -------------------------- //
 
 const PORT = process.env.PORT;
