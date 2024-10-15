@@ -417,6 +417,7 @@ app.post("/predict", (req, res) => {
   });
 });
 
+
 // ---------------------------- Ai Health assistant Route ---------------------------- //
 app.post("/api/health-assistant", async (req, res) => {
   const { userMessage } = req.body;
@@ -500,7 +501,28 @@ app.post("/saveAppointmentDetails", async (req, res) => {
   }
 });
 
+// Disease Prediction route random forest from google Colab
 
+app.post("/predict:patientId", async (req, res) => {
+  const { symptoms } = req.body;
+
+  if (!symptoms) {
+    return res.status(400).json({ message: "No symptoms provided" });
+  }
+
+  try {
+    // Send the symptoms to the Flask API hosted via ngrok
+    const flaskAPIUrl = "https://b6ed-34-172-101-130.ngrok-free.app/predict"; // Replace with your ngrok URL
+
+    const response = await axios.post(flaskAPIUrl, { symptoms });
+
+    // Return the prediction result from the Flask API to the frontend
+    res.json({ disease: response.data.disease });
+  } catch (error) {
+    console.error("Error connecting to Flask API:", error);
+    res.status(500).json({ message: "Error predicting disease", error: error.message });
+  }
+});
 
 // --------------------------- Port is running -------------------------- //
 
