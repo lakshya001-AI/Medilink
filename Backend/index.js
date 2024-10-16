@@ -469,7 +469,14 @@ app.put("/updateDoctorDetail", async (req, res) => {
 });
 
 app.post("/saveAppointmentDetails", async (req, res) => {
-  const { patientName, patientMobNo ,patientProblem, patientId, appointmentDate, doctorID } = req.body;
+  const {
+    patientName,
+    patientMobNo,
+    patientProblem,
+    patientId,
+    appointmentDate,
+    doctorID,
+  } = req.body;
 
   try {
     // Find the doctor by ID
@@ -486,10 +493,9 @@ app.post("/saveAppointmentDetails", async (req, res) => {
       patientId,
       patientProblem,
       appointmentDate,
-    };    
+    };
 
     console.log(appointmentData);
-    
 
     // Push the new appointment into the doctor's appointments array
     doctor.appointments.push(appointmentData);
@@ -506,46 +512,61 @@ app.post("/saveAppointmentDetails", async (req, res) => {
 
 // save the doctor accept requests
 
-app.post("/saveAcceptRequest", async (req, res)=>{
-
+app.post("/saveAcceptRequest", async (req, res) => {
   try {
-    const {patientId, patientMobNo, doctorName, appointmentDate} = req.body;
-  const appointmentObj = {
-    patientId,
-    patientMobNo,
-    doctorName,
-    appointmentDate
-  }
+    const { patientId, patientMobNo, doctorName, appointmentDate } = req.body;
+    const appointmentObj = {
+      patientId,
+      patientMobNo,
+      doctorName,
+      appointmentDate,
+    };
 
-  const patient = await PatientModel.findOne({PatientID:patientId});
+    const patient = await PatientModel.findOne({ PatientID: patientId });
 
-  patient.patientAcceptRequests.push(appointmentObj);
+    patient.patientAcceptRequests.push(appointmentObj);
 
-  await patient.save();
-  res.status(200).send({message:"Accepted the request"});
-} catch (error) {
-    res.status(500).send({message:"An error occurred"});
+    await patient.save();
+    res.status(200).send({ message: "Accepted the request" });
+  } catch (error) {
+    res.status(500).send({ message: "An error occurred" });
   }
 });
 
 // save the doctor reject requests
 
-app.post("/saveRejectRequests", async (req, res)=>{
+app.post("/saveRejectRequests", async (req, res) => {
   try {
-    const {doctorName,dateOfAppointment,patientID} = req.body;
+    const { doctorName, dateOfAppointment, patientID } = req.body;
     const rejectedObj = {
       doctorName,
       dateOfAppointment,
-      patientID
-    }
-    const patient = await PatientModel.findOne({PatientID:patientID});
+      patientID,
+    };
+    const patient = await PatientModel.findOne({ PatientID: patientID });
     patient.patientRejectRequests.push(rejectedObj);
     await patient.save();
-    res.status(200).send({message:"Accepted the request"});
+    res.status(200).send({ message: "Accepted the request" });
   } catch (error) {
-    res.status(500).send({message:"An error occurred"});
+    res.status(500).send({ message: "An error occurred" });
   }
 });
+
+// get the patient details
+app.post("/getPatientDetail", async (req, res) => {
+  try {
+    const { patientID } = req.body;
+    const patient = await PatientModel.findOne({ PatientID: patientID });
+    if (patient) {
+      res.status(200).send({ patient });
+    } else {
+      res.status(404).send({ message: "Patient not found" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving patient details" });
+  }
+});
+
 
 // Disease Prediction route random forest from google Colab
 
