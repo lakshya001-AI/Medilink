@@ -469,7 +469,7 @@ app.put("/updateDoctorDetail", async (req, res) => {
 });
 
 app.post("/saveAppointmentDetails", async (req, res) => {
-  const { patientName, patientProblem, patientId, appointmentDate, doctorID } = req.body;
+  const { patientName, patientMobNo ,patientProblem, patientId, appointmentDate, doctorID } = req.body;
 
   try {
     // Find the doctor by ID
@@ -482,10 +482,11 @@ app.post("/saveAppointmentDetails", async (req, res) => {
     // Create an appointment object
     const appointmentData = {
       patientName,
+      patientMobNo,
+      patientId,
       patientProblem,
       appointmentDate,
-      patientId
-    };
+    };    
 
     console.log(appointmentData);
     
@@ -500,6 +501,30 @@ app.post("/saveAppointmentDetails", async (req, res) => {
   } catch (error) {
     console.error(`Error saving appointment: ${error}`);
     res.status(500).send({ message: "Failed to book appointment.", error });
+  }
+});
+
+// save the doctor accept requests
+
+app.post("/saveAcceptRequest", async (req, res)=>{
+
+  try {
+    const {patientId, patientMobNo, doctorName, appointmentDate} = req.body;
+  const appointmentObj = {
+    patientId,
+    patientMobNo,
+    doctorName,
+    appointmentDate
+  }
+
+  const patient = await PatientModel.findOne({PatientID:patientId});
+
+  patient.patientAcceptRequests.push(appointmentObj);
+
+  await patient.save();
+  res.status(200).send({message:"Accepted the request"});
+} catch (error) {
+    res.status(500).send({message:"An error occurred"});
   }
 });
 

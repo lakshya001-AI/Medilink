@@ -10,6 +10,7 @@ function BookAppointmentPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State for popup visibility
   const [patientName, setPatientName] = useState("");
   const [patientProblem, setPatientProblem] = useState("");
+  const [patientMobNo, setPatientMobileNo] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [doctorID, setDoctorID] = useState(""); // Store the selected doctor ID
   const patientId = localStorage.getItem("patientID");
@@ -48,6 +49,7 @@ function BookAppointmentPage() {
     try {
       await axios.post("http://localhost:5000/saveAppointmentDetails", {
         patientName,
+        patientMobNo,
         patientProblem,
         patientId,
         appointmentDate,
@@ -165,6 +167,12 @@ function BookAppointmentPage() {
                   placeholder="Your Name"
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Your Mobile Number"
+                  value={patientMobNo}
+                  onChange={(e) => setPatientMobileNo(e.target.value)}
                 />
                 <input
                   type="text"

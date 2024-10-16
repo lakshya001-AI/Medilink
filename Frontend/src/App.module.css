@@ -2667,8 +2667,30 @@ cursor: pointer;
     margin-top: 10px;
     margin-left: 5px;
     margin-bottom: 20px;
+}
 
-  }
+.acceptAndRejectBtnDiv{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.acceptAndRejectBtnDiv button{
+    width: 100px;
+    background-color: #987ae3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.acceptAndRejectBtnDiv button:hover{
+    background-color: #ab94e6;
+}
   
   
   

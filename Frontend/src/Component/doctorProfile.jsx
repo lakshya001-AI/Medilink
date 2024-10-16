@@ -2,12 +2,14 @@ import Style from "../App.module.css";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 function DoctorProfile() {
   const [doctorDetails, setDoctorDetails] = useState(null); // State to store doctor details
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const [isEditing, setIsEditing] = useState(false); // State for edit mode
+  const [isAppointmentAccepted, setIsAppointmentAccepted] = useState(false);
 
   let doctorId = localStorage.getItem("doctorID");
   console.log(doctorId);
@@ -54,6 +56,101 @@ function DoctorProfile() {
 
   if (loading) return <p>Loading...</p>; // Display loading state
   if (error) return <p>{error}</p>; // Display error message
+
+  
+
+  const acceptRequest = async (patientId, patientMobNo, doctorName, appointmentDate) => {
+    // Task: Send a message and save the request to the patient data
+    try {
+      // Send a POST request to save the accepted request in the backend
+      // const response = await axios.post("http://localhost:5000/saveAcceptRequest", {
+      //   patientId,
+      //   patientMobNo,
+      //   doctorName,
+      //   appointmentDate
+      // });
+  
+      if (response.status === 200) {
+        // Fast2SMS API setup
+        const apiUrl = "https://www.fast2sms.com/dev/bulkV2";
+        // const apiKey = "NOYQosOf7q45XdUTiipvLqMVCyiq7k1HnW1Rkb3BglP0ePOaJxp16zwOkQKb";
+  
+        // Craft the message with better formatting
+        const message = `Dear patient, your appointment with Dr. ${doctorName} on ${appointmentDate} has been successfully confirmed. \n\nThank you for choosing MediLink.`;
+  
+        // Clean the phone number and remove non-digit characters
+        const cleanedPatientMobNo = patientMobNo.replace(/\D/g, "");
+        const numericPatientMobNo = Number(cleanedPatientMobNo);
+  
+        // Prepare URL parameters for the SMS API
+        const params = new URLSearchParams({
+          authorization: apiKey,
+          message: message,
+          language: "english",
+          route: "q",
+          numbers: numericPatientMobNo,
+        });
+  
+        const url = `${apiUrl}?${params.toString()}`;
+  
+        // Send the SMS request
+        fetch(url, { method: "GET" })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.return) {
+              toast.success("Appointment accepted and notification sent successfully!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "colored",
+                transition: Bounce,
+                className: Style.customToast
+              });
+              setIsAppointmentAccepted(true);
+            } else {
+              throw new Error("Failed to send the notification.");
+            }
+          })
+          .catch((error) => {
+            console.error("SMS error:", error);
+            toast.error("Appointment accepted but failed to send notification.", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "colored",
+              transition: Bounce,
+              className: Style.customToast
+            });
+          });
+      } else {
+        throw new Error("Failed to save the appointment request.");
+      }
+    } catch (error) {
+      console.error("Request error:", error);
+      toast.error("An error occurred while processing the appointment. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+        transition: Bounce,
+        className: Style.customToast
+      });
+    }
+  };
+
+  const rejectedRequest = () =>{
+
+  }
+
 
   return (
     <div className={Style.mainDivPatient}>
@@ -124,9 +221,18 @@ function DoctorProfile() {
                 <div key={index} className={Style.appointmentCard}>
                   <p><strong>Patient Name:</strong> {appointment.patientName}</p>
                   <p><strong>Patient ID:</strong> {appointment.patientId}</p>
+                  <p><strong>Patient Mobile No.:</strong> {appointment.patientMobNo}</p>
                   <p><strong>Problem:</strong> {appointment.patientProblem}</p>
                   <p><strong>Date:</strong> {appointment.appointmentDate}</p>
                   <div className={Style.acceptAndRejectBtnDiv}>
+                    {
+                      isAppointmentAccepted ? (<>
+                      <p>Appointment is Accepted</p>
+                      </>) : (<>
+                        <button onClick={()=>acceptRequest(appointment.patientId,appointment.patientMobNo, doctorDetails.doctorName, appointment.appointmentDate )}>Accept</button>
+                        <button onClick={()=>rejectedRequest(doctorDetails.doctorName,appointment.appointmentDate,appointment.patientId)}>Reject</button>
+                      </>)
+                    }
                   </div>
                 </div>
               ))
@@ -136,6 +242,7 @@ function DoctorProfile() {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
