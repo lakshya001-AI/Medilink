@@ -469,7 +469,7 @@ app.put("/updateDoctorDetail", async (req, res) => {
 });
 
 app.post("/saveAppointmentDetails", async (req, res) => {
-  const { patientName, patientProblem, appointmentDate, doctorID } = req.body;
+  const { patientName, patientProblem, patientId, appointmentDate, doctorID } = req.body;
 
   try {
     // Find the doctor by ID
@@ -484,7 +484,11 @@ app.post("/saveAppointmentDetails", async (req, res) => {
       patientName,
       patientProblem,
       appointmentDate,
+      patientId
     };
+
+    console.log(appointmentData);
+    
 
     // Push the new appointment into the doctor's appointments array
     doctor.appointments.push(appointmentData);

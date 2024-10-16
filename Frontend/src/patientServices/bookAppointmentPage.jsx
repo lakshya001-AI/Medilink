@@ -12,6 +12,7 @@ function BookAppointmentPage() {
   const [patientProblem, setPatientProblem] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [doctorID, setDoctorID] = useState(""); // Store the selected doctor ID
+  const patientId = localStorage.getItem("patientID");
 
   // Sample data for doctors based on categories
   const doctorsData = {
@@ -48,6 +49,7 @@ function BookAppointmentPage() {
       await axios.post("http://localhost:5000/saveAppointmentDetails", {
         patientName,
         patientProblem,
+        patientId,
         appointmentDate,
         doctorID,
       });
