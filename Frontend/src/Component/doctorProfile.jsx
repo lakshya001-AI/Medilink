@@ -147,9 +147,57 @@ function DoctorProfile() {
     }
   };
 
-  const rejectedRequest = () =>{
-
-  }
+  const rejectedRequest = async (doctorName, dateOfAppointment, patientID) => {
+    try {
+      // Sending POST request to save the rejected appointment
+      let response = await axios.post("http://localhost:5000/saveRejectRequests", {
+        doctorName,
+        dateOfAppointment,
+        patientID,
+      });
+  
+      if (response.status === 200) {
+        // Display a success toast notification
+        toast.success("Appointment has been rejected successfully. Thank you for your time!", {
+          position: "top-right",
+          autoClose: 5000,  // Toast will disappear after 5 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+          transition: Bounce,
+          className: Style.customToast
+        });
+        
+        // Optional: You can also trigger UI updates here to reflect the rejected status
+        // e.g., updating the appointment status to "rejected" in the UI.
+        
+      } else {
+        // Handle any unexpected response status codes
+        throw new Error("Unexpected response from server.");
+      }
+    } catch (error) {
+      console.error("Error rejecting appointment:", error);
+  
+      // Display an error toast notification
+      toast.error(`An error occurred: ${error.message}. Please try again later.`, {
+        position: "top-right",
+        autoClose: 5000,  // Toast will disappear after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+        transition: Bounce,
+        className: Style.customToast
+      });
+  
+      // Optional: You can log the error or send it to a server for further debugging
+      // e.g., logging service like Sentry or a backend endpoint for error reporting
+    }
+  };
+  
 
 
   return (

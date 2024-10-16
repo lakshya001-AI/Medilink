@@ -12,6 +12,7 @@ const PatientSchema = mongoose.Schema({
   PPassword: { type: String, required: true },
   PatientID: { type: String, required: true },
   patientAcceptRequests: [],
+  patientRejectRequests: []
 });
 
 const PatientModel = mongoose.model("PatientModel", PatientSchema);

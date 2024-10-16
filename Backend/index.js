@@ -528,6 +528,25 @@ app.post("/saveAcceptRequest", async (req, res)=>{
   }
 });
 
+// save the doctor reject requests
+
+app.post("/saveRejectRequests", async (req, res)=>{
+  try {
+    const {doctorName,dateOfAppointment,patientID} = req.body;
+    const rejectedObj = {
+      doctorName,
+      dateOfAppointment,
+      patientID
+    }
+    const patient = await PatientModel.findOne({PatientID:patientID});
+    patient.patientRejectRequests.push(rejectedObj);
+    await patient.save();
+    res.status(200).send({message:"Accepted the request"});
+  } catch (error) {
+    res.status(500).send({message:"An error occurred"});
+  }
+});
+
 // Disease Prediction route random forest from google Colab
 
 app.post("/diseasePrediction/predict:patientId", async (req, res) => {
