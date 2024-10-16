@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import make_pipeline
-
 # Load your trained model (re-train if necessary)
 data = {
     'symptoms': [

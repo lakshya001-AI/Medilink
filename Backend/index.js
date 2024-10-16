@@ -417,7 +417,6 @@ app.post("/predict", (req, res) => {
   });
 });
 
-
 // ---------------------------- Ai Health assistant Route ---------------------------- //
 app.post("/api/health-assistant", async (req, res) => {
   const { userMessage } = req.body;
@@ -469,7 +468,6 @@ app.put("/updateDoctorDetail", async (req, res) => {
   }
 });
 
-
 app.post("/saveAppointmentDetails", async (req, res) => {
   const { patientName, patientProblem, appointmentDate, doctorID } = req.body;
 
@@ -503,7 +501,7 @@ app.post("/saveAppointmentDetails", async (req, res) => {
 
 // Disease Prediction route random forest from google Colab
 
-app.post("/predict:patientId", async (req, res) => {
+app.post("/diseasePrediction/predict:patientId", async (req, res) => {
   const { symptoms } = req.body;
 
   if (!symptoms) {
@@ -520,7 +518,9 @@ app.post("/predict:patientId", async (req, res) => {
     res.json({ disease: response.data.disease });
   } catch (error) {
     console.error("Error connecting to Flask API:", error);
-    res.status(500).json({ message: "Error predicting disease", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error predicting disease", error: error.message });
   }
 });
 
