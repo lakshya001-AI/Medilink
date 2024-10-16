@@ -114,6 +114,9 @@ function PatientPage() {
           </div>
 
           <div className={Style.navBarElements1}>
+          <Link className={Style.navBarElementAIHelp} to="/patientProfilePage">
+              Profile
+            </Link>
             <Link className={Style.navBarElementAIHelp} to="/">logout</Link>
           </div>
         </div>

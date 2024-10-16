@@ -12,6 +12,7 @@ import DiesesPredictionPage from './patientServices/diseasePredictionPage';
 import HealthAssistantPage from './patientServices/healthAssistantPage';
 import BookAppointmentPage from './patientServices/bookAppointmentPage';
 import DoctorProfile from './Component/doctorProfile';
+import PatientProfilePage from './Component/patientProfilePage';
 
 function App() {
   return <>
@@ -28,6 +29,7 @@ function App() {
     <Route path='/HealthAssistantPage' element={<HealthAssistantPage/>}/>
     <Route path='/BookAppointmentPage' element={<BookAppointmentPage/>}/>
     <Route path='/DoctorProfilePage' element={<DoctorProfile/>}/>
+    <Route path='/patientProfilePage' element={<PatientProfilePage/>}/>
   </Routes>
   </BrowserRouter>
 
