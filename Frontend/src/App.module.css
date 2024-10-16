@@ -2153,7 +2153,8 @@ cursor: pointer;
 }
 
 .assistantResultHeading{
-    font-size: 21px;
+    font-size: 31px;
+    margin-bottom: 20px;
 }
 
 .bookAppointmentMainDiv{
@@ -2794,6 +2795,19 @@ cursor: pointer;
     border: 0;
     border-radius: 30px;
   }
+
+  .assistantResultHeading{
+    font-size: 20px;
+  }
+
+  .loadingMessage {
+    font-size: 16px;
+    color: #555; /* Adjust color as needed */
+    margin-top: 20px; /* Add some spacing */
+  }
+  
+
+
 
 
   
