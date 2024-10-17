@@ -63,17 +63,17 @@ function DoctorProfile() {
     // Task: Send a message and save the request to the patient data
     try {
       // Send a POST request to save the accepted request in the backend
-      // const response = await axios.post("http://localhost:5000/saveAcceptRequest", {
-      //   patientId,
-      //   patientMobNo,
-      //   doctorName,
-      //   appointmentDate
-      // });
+      const response = await axios.post("http://localhost:5000/saveAcceptRequest", {
+        patientId,
+        patientMobNo,
+        doctorName,
+        appointmentDate
+      });
   
       if (response.status === 200) {
         // Fast2SMS API setup
         const apiUrl = "https://www.fast2sms.com/dev/bulkV2";
-        // const apiKey = "NOYQosOf7q45XdUTiipvLqMVCyiq7k1HnW1Rkb3BglP0ePOaJxp16zwOkQKb";
+        const apiKey = "NOYQosOf7q45XdUTiipvLqMVCyiq7k1HnW1Rkb3BglP0ePOaJxp16zwOkQKb";
   
         // Craft the message with better formatting
         const message = `Dear patient, your appointment with Dr. ${doctorName} on ${appointmentDate} has been successfully confirmed. \n\nThank you for choosing MediLink.`;
